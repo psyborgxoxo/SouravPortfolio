@@ -11,8 +11,8 @@ const Experience: React.FC = () => {
       period: "January 2024 – Present",
       title: "CTO",
       company: "Design Hut Interior Studio",
-      location: "Remote / India",
-      type: "work",
+      location: "Karnataka, India",
+      type: "Remote",
       url: "https://design-hut.vercel.app/",
       description: "Led the technology vision and architecture for the product and ensured alignment with business goals.",
       achievements: [

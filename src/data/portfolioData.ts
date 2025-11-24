@@ -66,14 +66,14 @@ export interface Certification {
 
 export const personalInfo: PersonalInfo = {
   name: "SOURAV",
-  title: "Full Stack QAE ,MERN Stack Dev & AI Generalist",
+  title: "Full Stack QAE , MERN Stack Dev & AI Generalist",
   tagline: "Electronics Engineer | QA Specialist | MERN Developer | Cybersecurity Enthusiast | AI Generalist",
-  bio: "I am a results-driven Software Development Engineer in Test (SDET) with 2.5 years of hands-on experience in functional and automation testing, API validation, CI/CD integration, and building robust test automation frameworks. Having worked with cross-functional teams at Fynd (Jio Commerce platform) and RCS Pvt. Ltd., I’ve contributed to enhancing product reliability, performance, and release efficiency through scalable QA solutions. With a deep interest in Artificial Intelligence, particularly AI-driven testing and automation intelligence, I strive to design smarter, self-healing, and adaptive test systems that bridge the gap between QA engineering and cutting-edge innovation.",
+  bio: " Detail-oriented SDET with 2.5 years of experience in manual and automation testing, API validation, CI/CD integration, and building scalable test frameworks using Java, Selenium, TestNG, and RestAssured. Proven track record of improving release quality and engineering velocity through intelligent automation and strong collaboration with product and development teams at Fynd (Jio Commerce). Experienced across functional, regression, and system testing with hands-on expertise in designing test strategies, analyzing requirements, and driving sprint-level QA ownership. Brings emerging capabilities in AI-driven testing, including self-healing automation, LLM-assisted test generation, and RAG-based validation workflows. Strong technical foundation, a product-centric mindset, and the ability to deliver reliable, high-quality releases in fast-paced Agile environments. ",
   location: "Bangalore, India",
   email: "souravshetty11@gmail.com",
   phone: "+91 6360642212",
   portfolio: "sourav.io",
-  profileImage: "/profile-photo1.jpeg", // Professional portrait photo
+  profileImage: "/profile-photo1.jpeg",
   social: {
     github: "https://github.com/psyborgxoxo",
     portfolio: "sourav.io",
@@ -282,6 +282,8 @@ export const skills: Skill[] = [
   { name: "Application Security", proficiency: 80, category: "Security & Development" },
   { name: "Vulnerability Assessment", proficiency: 80, category: "Security & Development" },
 ];
+
+
 
 export const experience: Experience[] = [
 
