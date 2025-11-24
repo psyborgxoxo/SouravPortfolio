@@ -5,8 +5,28 @@ const Experience: React.FC = () => {
   const experienceRef = useRef<HTMLDivElement>(null);
 
   const experiences = [
+
     {
       id: 1,
+      period: "January 2024 – Present",
+      title: "CTO",
+      company: "Design Hut Interior Studio",
+      location: "Remote / India",
+      type: "work",
+      url: "https://design-hut.vercel.app/",
+      description: "Led the technology vision and architecture for the product and ensured alignment with business goals.",
+      achievements: [
+        "Led the technology vision and architecture for the product and ensured alignment with business goals",
+        "Evaluated and adopted modern tools, frameworks, and AI-driven technologies to improve development efficiency",
+        "Guided engineering teams through technical decisions, scalability planning, and best coding practices",
+        "Oversaw end-to-end system design, deployment pipelines, and production stability",
+        "Collaborated with cross-functional leaders to plan product milestones, technical roadmaps, and long-term strategy"
+      ],
+      skills: ['CTO', 'Architecture', 'AI/ML', 'Engineering Leadership', 'System Design']
+    },
+
+    {
+      id: 2,
       period: 'April 2024 — Present',
       title: 'Crio Fellowship in QA Automation (SDET) - Advanced',
       company: 'CRIO',
@@ -23,7 +43,7 @@ const Experience: React.FC = () => {
       skills: ['Test Automation', 'CI/CD', 'Selenium', 'TestNG', 'Python', 'API Testing']
     },
     {
-      id: 2,
+      id: 3,
       period: 'Sep 2022 – Apr 2024',
       title: 'SDET — Fynd (Jio Commerce Platform)',
       company: 'FYND',
@@ -40,7 +60,7 @@ const Experience: React.FC = () => {
       skills: ['SDET', 'Selenium', 'TestNG', 'Python', 'CI/CD', 'Jenkins']
     },
     {
-      id: 3,
+      id: 4,
       period: 'Nov 2021 – Jun 2022',
       title: 'Software Engineer — RCS Pvt. Ltd.',
       company: 'RCS Pvt. Ltd.',
@@ -56,7 +76,7 @@ const Experience: React.FC = () => {
       skills: ['QA Automation', 'Functional Testing', 'Regression Testing', 'API Validation']
     },
     {
-      id: 4,
+      id: 5,
       period: 'Jul 2021 – Sep 2021',
       title: 'Cyber Security Summer Intern',
       company: 'Gurugram Police CSSI 2021',
@@ -128,11 +148,12 @@ const Experience: React.FC = () => {
     <section ref={experienceRef} id="experience" className="py-12 md:py-20 relative">
       <div className="container mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="text-center mb-10 md:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold text-electric-blue glow-text mb-4">
-            Professional Experience
+        <div className="about-header text-center mb-10 sm:mb-12 lg:mb-14">
+          <p className="text-jarvis-primary text-xs sm:text-sm font-mono tracking-widest mb-2 sm:mb-3">// WROKING DIRECTORY</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold font-orbitron text-white mb-3 sm:mb-4 px-4">
+            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary to-jarvis-secondary">Experience</span>
           </h2>
-          <div className="w-16 sm:w-24 h-1 bg-electric-blue mx-auto glow-border"></div>
+          <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto rounded-full" />
         </div>
 
         <div className="max-w-5xl mx-auto">

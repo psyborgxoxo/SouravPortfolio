@@ -192,14 +192,14 @@ const SkillsSection: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
-        <div className="skills-header text-center mb-8 md:mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary to-jarvis-secondary">SKILLS</span>
-            <span className="ml-2 text-jarvis-primary">DATABASE</span>
+         {/* Header */}
+        <div className="about-header text-center mb-10 sm:mb-12 lg:mb-14">
+          <p className="text-jarvis-primary text-xs sm:text-sm font-mono tracking-widest mb-2 sm:mb-3">// WHAT I DO</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold font-orbitron text-white mb-3 sm:mb-4 px-4">
+            Skill <span className="text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary to-jarvis-secondary">Database</span>
           </h2>
-          <div className="w-16 md:w-24 h-1 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto" />
-          <p className="text-jarvis-light/60 text-sm md:text-lg max-w-2xl mx-auto mt-4 md:mt-6 px-4">
+          <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto rounded-full" />
+           <p className="text-jarvis-light/60 text-sm md:text-lg max-w-2xl mx-auto mt-4 md:mt-6 px-4">
             Advanced skill matrix with proficiency levels and real-world application expertise
           </p>
         </div>
@@ -238,12 +238,6 @@ const SkillsSection: React.FC = () => {
         <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
           {[
             {
-              label: 'Full Stack',
-              count: skills.filter(s => s.category === 'Full Stack Development').length,
-              icon: '⚡',
-              color: 'text-jarvis-primary',
-            },
-            {
               label: 'QA & Testing',
               count: skills.filter(s => s.category === 'Quality Assurance & Testing').length,
               icon: '🔍',
@@ -255,9 +249,15 @@ const SkillsSection: React.FC = () => {
               icon: '💻',
               color: 'text-jarvis-accent',
             },
+              {
+              label: 'CI/CD & Version Control',
+              count: skills.filter(s => s.category === 'CI/CD & Version Control').length,
+              icon: '⚡',
+              color: 'text-jarvis-primary',
+            },
             {
-              label: 'Security',
-              count: skills.filter(s => s.category === 'Security & Development').length,
+              label: 'Artificial Intelligence',
+              count: skills.filter(s => s.category === 'AI').length,
               icon: '🛡️',
               color: 'text-green-400',
             },
@@ -288,7 +288,7 @@ const SkillsSection: React.FC = () => {
               Primary technology stack and specialized tools for modern full-stack development
             </p>
             <div className="flex flex-wrap justify-center gap-2 md:gap-4">
-              {['MERN Stack', 'React.js', 'JavaScript', 'Postman', 'QA Testing', 'Cybersecurity'].map((tech, index) => (
+              {['Automation', 'Development','QA Testing', 'Cybersecurity', 'AI'].map((tech, index) => (
                 <span
                   key={index}
                   className="px-3 md:px-4 py-1.5 md:py-2 bg-jarvis-primary/10 text-jarvis-primary text-xs md:text-sm rounded-full border border-jarvis-primary/20 hover:bg-jarvis-primary/20 transition-colors duration-300"

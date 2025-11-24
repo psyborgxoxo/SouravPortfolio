@@ -231,17 +231,19 @@ const ContactSection: React.FC = () => {
       <div className="absolute inset-0 scan-line opacity-5" />
 
       <div className="container-width relative z-10 px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="contact-header text-center mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-            <span className="font-orbitron neon-text">CONTACT</span>
-            <span className="text-jarvis-primary ml-2">INTERFACE</span>
+        {/* Header */}
+        <div className="about-header text-center mb-10 sm:mb-12 lg:mb-14">
+          <p className="text-jarvis-primary text-xs sm:text-sm font-mono tracking-widest mb-2 sm:mb-3">// LET'S CONNECT</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold font-orbitron text-white mb-3 sm:mb-4 px-4">
+            Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary to-jarvis-secondary">Me</span>
           </h2>
-          <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto scan-line" />
-          <p className="text-jarvis-light text-sm sm:text-base max-w-2xl mx-auto mt-4 sm:mt-6 font-exo2">
+          <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto rounded-full" />
+                    <p className="text-jarvis-light text-sm sm:text-base max-w-2xl mx-auto mt-4 sm:mt-6 font-exo2">
             Ready to collaborate on innovative projects? Let's build the future together.
           </p>
         </div>
+
+
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Left Column - Contact Info */}

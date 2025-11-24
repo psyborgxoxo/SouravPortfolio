@@ -7,6 +7,7 @@ export interface Project {
   status: 'completed' | 'in-progress' | 'planned';
   year: string;
   icon: string;
+  githubRepo?: string;
 }
 
 export interface Skill {
@@ -21,6 +22,7 @@ export interface Experience {
   title: string;
   company: string;
   location: string;
+  url?: string;
   description: string[];
   type: 'work' | 'internship' | 'education';
 }
@@ -58,13 +60,14 @@ export interface Certification {
   name: string;
   issuer: string;
   year: string;
-  type: 'internship' | 'course';
+  type: 'internship' | 'course'
+  | 'certification';
 }
 
 export const personalInfo: PersonalInfo = {
   name: "SOURAV",
-  title: "MERN Stack Dev, Full Stack QAE & AI Generalist",
-  tagline: "Electronics Engineer | QA Specialist | MERN Developer | Cybersecurity Enthusiast",
+  title: "Full Stack QAE ,MERN Stack Dev & AI Generalist",
+  tagline: "Electronics Engineer | QA Specialist | MERN Developer | Cybersecurity Enthusiast | AI Generalist",
   bio: "I am a results-driven Software Development Engineer in Test (SDET) with 2.5 years of hands-on experience in functional and automation testing, API validation, CI/CD integration, and building robust test automation frameworks. Having worked with cross-functional teams at Fynd (Jio Commerce platform) and RCS Pvt. Ltd., I’ve contributed to enhancing product reliability, performance, and release efficiency through scalable QA solutions. With a deep interest in Artificial Intelligence, particularly AI-driven testing and automation intelligence, I strive to design smarter, self-healing, and adaptive test systems that bridge the gap between QA engineering and cutting-edge innovation.",
   location: "Bangalore, India",
   email: "souravshetty11@gmail.com",
@@ -85,99 +88,222 @@ export const education: Education[] = [
     degree: "BE in Electronics & Communication",
     institution: "Adhichunchangiri Institute Of Technology",
     location: "Chikmagaluru, India",
-    cgpa: "6.5",
-    languages: "English",
+    cgpa: "7",
+    languages: "VTU",
     year: "2022"
   }
 ];
 
+
 export const projects: Project[] = [
+  // New UI Automation Projects
   {
     id: 1,
+    title: "Flipkart Search Test Automation",
+    description:
+      "Automated UI testing for Flipkart's search functionality using Selenium. Ensured robust test coverage for various search scenarios and edge cases.",
+    tech: ["Selenium", "Java", "TestNG", "Jenkins"],
+    category: "QA & Development",
+    status: "completed",
+    year: "2023",
+    icon: "Search",
+    githubRepo: "https://github.com/psyborgxoxo/souravshetty10-ME_QA_XFLIPKART_SEARCH",
+  },
+  {
+    id: 2,
+    title: "YouTube Search Automation",
+    description:
+      "Developed automation scripts for YouTube search functionality using Selenium and Java. Focused on scalability and maintainability of test cases.",
+    tech: ["Selenium", "Java", "JUnit", "Maven"],
+    category: "QA & Development",
+    status: "completed",
+    year: "2023",
+    icon: "Video",
+    githubRepo: "https://github.com/psyborgxoxo/ME_QA_XYOUTUBE_SEARCH",
+  },
+  {
+    id: 3,
+    title: "Web Scraping Automation",
+    description:
+      "Automated data scraping from websites using Selenium and Python. Designed modular scripts for extracting structured data efficiently.",
+    tech: ["Selenium", "Python", "BeautifulSoup", "Pandas"],
+    category: "QA & Development",
+    status: "completed",
+    year: "2023",
+    icon: "Data",
+    githubRepo: "https://github.com/psyborgxoxo/-ME_QA_XSCRAPE_DATA",
+  },
+  {
+    id: 4,
+    title: "Google Forms Automation",
+    description:
+      "Automated UI testing for Google Forms using Selenium. Validated form submission workflows and ensured cross-browser compatibility.",
+    tech: ["Selenium", "Java", "TestNG", "Cross-Browser Testing"],
+    category: "QA & Development",
+    status: "completed",
+    year: "2023",
+    icon: "Form",
+    githubRepo: "https://github.com/psyborgxoxo/ME_QA_XGOOGLE_FORM",
+  },
+
+  // New API Automation Project
+  {
+    id: 5,
+    title: "PetStore API Automation",
+    description:
+      "Automated API testing for PetStore using RestAssured and Java. Validated endpoints for CRUD operations and error handling scenarios.",
+    tech: ["RestAssured", "Java", "TestNG", "Postman"],
+    category: "QA & Development",
+    status: "completed",
+    year: "2023",
+    icon: "API",
+    githubRepo: "https://github.com/psyborgxoxo/QPetStore-API-Automation",
+  },
+
+  // New Full Stack Development Projects
+  {
+    id: 6,
+    title: "Personal Portfolio Website",
+    description:
+      "Developed a personal portfolio website using React and Vite. Integrated modern design principles and responsive layouts for optimal user experience.",
+    tech: ["React", "Vite", "Tailwind CSS", "TypeScript"],
+    category: "Full Stack Development",
+    status: "completed",
+    year: "2023",
+    icon: "Portfolio",
+    githubRepo: "https://github.com/psyborgxoxo/SouravPortfolio",
+  },
+  {
+    id: 7,
+    title: "Design Hut - Creative Design Platform",
+    description:
+      "Built a creative design platform using React and Vite. Enabled users to explore and share design templates with interactive features.",
+    tech: ["React", "Vite", "Styled Components", "ESLint"],
+    category: "Full Stack Development",
+    status: "completed",
+    year: "2023",
+    icon: "Design",
+    githubRepo: "https://github.com/psyborgxoxo/design-hut",
+  },
+  // Existing Projects
+  {
+    id: 8,
     title: "React Web Apps - Social Media MERN Clones",
-    description: "Built multiple social media applications including Amazon, Tinder, TikTok, Instagram, and WhatsApp clones using MERN stack. Implemented real-time features, authentication systems, and responsive design.",
+    description:
+      "Built multiple social media applications including Amazon, Tinder, TikTok, Instagram, and WhatsApp clones using MERN stack. Implemented real-time features, authentication systems, and responsive design.",
     tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Socket.io"],
     category: "Full Stack Development",
     status: "completed",
     year: "2022",
-    icon: "SocialNetwork"
+    icon: "SocialNetwork",
+    githubRepo: "https://github.com/psyborgxoxo/social-media-clones",
   },
   {
-    id: 2,
+    id: 9,
     title: "E-Commerce Construction Based Website",
-    description: "Quality Assured Website with comprehensive QA procedures and 50+ work instructions. Monitored field-level performance and reported current status with improvements through research and root cause analysis.",
+    description:
+      "Quality Assured Website with comprehensive QA procedures and 50+ work instructions. Monitored field-level performance and reported current status with improvements through research and root cause analysis.",
     tech: ["React.js", "JavaScript", "QA Tools", "Performance Monitoring"],
     category: "QA & Development",
     status: "completed",
     year: "2022",
-    icon: "Construction"
+    icon: "Construction",
+    githubRepo: "https://github.com/psyborgxoxo/e-commerce-construction",
   },
   {
-    id: 3,
+    id: 10,
     title: "React Native Apps - Employee Authentication App",
-    description: "Complete employee authentication system powered by Firebase backend, ready for implementation. Features include secure login, role-based access, and real-time data synchronization.",
+    description:
+      "Complete employee authentication system powered by Firebase backend, ready for implementation. Features include secure login, role-based access, and real-time data synchronization.",
     tech: ["React Native", "Firebase", "Authentication Services", "Redux"],
     category: "Mobile Development",
     status: "completed",
     year: "2022",
-    icon: "MobileApp"
+    icon: "MobileApp",
+    githubRepo: "https://github.com/psyborgxoxo/employee-auth-app",
   },
   {
-    id: 4,
+    id: 11,
     title: "Job Portal App - AI-Powered MERN Application",
-    description: "Full stack MERN-based recruiting application with both Employer and Job Seeker suite featuring AI-based search, Video CV with video interview capability, and intelligent job matching algorithms.",
-    tech: ["MERN Stack", "AI Integration", "Video Technology", "Advanced Search", "Machine Learning"],
+    description:
+      "Full stack MERN-based recruiting application with both Employer and Job Seeker suite featuring AI-based search, Video CV with video interview capability, and intelligent job matching algorithms.",
+    tech: [
+      "MERN Stack",
+      "AI Integration",
+      "Video Technology",
+      "Advanced Search",
+      "Machine Learning",
+    ],
     category: "AI & Full Stack",
     status: "completed",
     year: "2022",
-    icon: "JobPortal"
-  }
+    icon: "JobPortal",
+    githubRepo: "https://github.com/psyborgxoxo/job-portal-ai",
+  },
 ];
 
 export const skills: Skill[] = [
-  // Full Stack Development
-  { name: "MERN Stack", proficiency: 90, category: "Full Stack Development" },
 
-  // Quality Assurance & Testing
-  { name: "Manual Testing", proficiency: 85, category: "Quality Assurance & Testing" },
-  { name: "Automation Testing", proficiency: 85, category: "Quality Assurance & Testing" },
-  { name: "Sanity Testing", proficiency: 85, category: "Quality Assurance & Testing" },
+  // Quality Assurance & Testing (Updated 2025)
+  { name: "API Testing (Rest Assured/Postman)", proficiency: 90, category: "Quality Assurance & Testing" },
+  { name: "UI Testing (Selenium)", proficiency: 88, category: "Quality Assurance & Testing" },
   { name: "Functional Testing", proficiency: 85, category: "Quality Assurance & Testing" },
-  { name: "UAT", proficiency: 85, category: "Quality Assurance & Testing" },
-  { name: "System Testing", proficiency: 85, category: "Quality Assurance & Testing" },
-  { name: "Regression Testing", proficiency: 85, category: "Quality Assurance & Testing" },
-  { name: "Installation Testing", proficiency: 85, category: "Quality Assurance & Testing" },
-  { name: "Smoke Testing", proficiency: 85, category: "Quality Assurance & Testing" },
+  { name: "Mobile App Testing (Appium)", proficiency: 85, category: "Quality Assurance & Testing" },
+  { name: "Performance Testing (JMeter)", proficiency: 80, category: "Quality Assurance & Testing" },
+  { name: "Security Testing Basics", proficiency: 75, category: "Quality Assurance & Testing" },
+  { name: "API Contract Testing (Postman / Newman)", proficiency: 82, category: "Quality Assurance & Testing" },
+  { name: "AI-powered Testing (GPT Automation / Test Generation)", proficiency: 85, category: "Quality Assurance & Testing" },
+  { name: "Test Strategy & Test Planning", proficiency: 90, category: "Quality Assurance & Testing" },
+  { name: "Exploratory Testing", proficiency: 88, category: "Quality Assurance & Testing" },
 
   // Programming Languages
-  { name: "JavaScript", proficiency: 80, category: "Programming Languages" },
-  { name: "React.js", proficiency: 80, category: "Programming Languages" },
   { name: "Core Java", proficiency: 80, category: "Programming Languages" },
-  { name: "HTML/CSS", proficiency: 80, category: "Programming Languages" },
+  { name: "TypeScript", proficiency: 78, category: "Programming Languages" },
+  { name: "React.js", proficiency: 80, category: "Programming Languages" },
+  { name: "Node.js", proficiency: 80, category: "Programming Languages" },
+  { name: "REST APIs", proficiency: 80, category: "Programming Languages" },
 
-  // API & Testing Tools
-  { name: "Postman", proficiency: 85, category: "API & Testing Tools" },
-  { name: "API Testing", proficiency: 85, category: "API & Testing Tools" },
-  { name: "Object-Oriented Programming", proficiency: 85, category: "API & Testing Tools" },
+  // CI/CD & Version Control
+  { name: "Jenkins", proficiency: 75, category: "CI/CD & Version Control" },
+  { name: "Git", proficiency: 80, category: "CI/CD & Version Control" },
+  { name: "GitHub", proficiency: 80, category: "CI/CD & Version Control" },
 
-  // Emerging Technologies
-  { name: "IoT Development", proficiency: 75, category: "Emerging Technologies" },
-  { name: "Sensor Integration", proficiency: 75, category: "Emerging Technologies" },
-  { name: "Visual Data Analysis", proficiency: 75, category: "Emerging Technologies" },
-  { name: "Web3", proficiency: 75, category: "Emerging Technologies" },
-  { name: "NFT", proficiency: 75, category: "Emerging Technologies" },
-  { name: "Bug Bounty", proficiency: 75, category: "Emerging Technologies" },
+  // AI (AI-Focused)
+  { name: "Machine Learning Basics", proficiency: 70, category: "AI" },
+  { name: "Deep Learning Fundamentals", proficiency: 65, category: "AI" },
+  { name: "Generative AI (LLMs)", proficiency: 75, category: "AI" },
+  { name: "Prompt Engineering", proficiency: 80, category: "AI" },
+  { name: "RAG (Retrieval-Augmented Generation)", proficiency: 70, category: "AI" },
+  { name: "MCP (Model Context Protocol)", proficiency: 70, category: "AI" },
+  { name: "AI Automation & Agents", proficiency: 75, category: "AI" },
+
 
   // Security & Development
   { name: "Application Security", proficiency: 80, category: "Security & Development" },
   { name: "Vulnerability Assessment", proficiency: 80, category: "Security & Development" },
-  { name: "CTF", proficiency: 80, category: "Security & Development" },
-  { name: "Cybersecurity", proficiency: 80, category: "Security & Development" }
 ];
 
 export const experience: Experience[] = [
+
   {
     id: 1,
+    period: "January 2024 – Present",
+    title: "CTO",
+    company: "Design Hut Interior Studio",
+    location: "Remote / India",
+    type: "work",
+    url: "https://design-hut.vercel.app/",
+    description: [
+      "Designed and developed the official website for Design Hut Interior Studio using modern UI/UX principles",
+      "Implemented responsive layouts optimized for desktop and mobile devices",
+      "Built clean, minimal, and user-friendly interface using React and Tailwind CSS",
+      "Created and structured content sections highlighting services, portfolio, and contact information",
+      "Integrated animations and modern visual aesthetics suitable for an interior design brand"
+    ]
+  },
+
+  {
+    id: 2,
     period: "September 2022 – Present",
     title: "Full-Stack QAE [Trainee]",
     company: "FYND",
@@ -192,7 +318,7 @@ export const experience: Experience[] = [
     ]
   },
   {
-    id: 2,
+    id: 3,
     period: "July 2021 – September 2021",
     title: "Application Level Security Intern",
     company: "Gurugram Police CSSI 2021",
@@ -205,7 +331,7 @@ export const experience: Experience[] = [
     ]
   },
   {
-    id: 3,
+    id: 4,
     period: "November 2021 – June 2022",
     title: "Full-Stack Developer [Trainee]",
     company: "RSC Systems Private Limited",
@@ -219,6 +345,7 @@ export const experience: Experience[] = [
   }
 ];
 
+
 export const certifications: Certification[] = [
   {
     id: 1,
@@ -229,35 +356,45 @@ export const certifications: Certification[] = [
   },
   {
     id: 2,
-    name: "Scrimba Introduction to ES6+ and JavaScript",
-    issuer: "Scrimba",
-    year: "2022",
-    type: "course"
+    name: "Oracle Java SE 11 Developer Certification (OCP)",
+    issuer: "Oracle",
+    year: "2024",
+    type: "certification"
   },
   {
     id: 3,
-    name: "Free Code Camp - Responsive Web Design",
-    issuer: "Free Code Camp",
-    year: "2022",
-    type: "course"
+    name: "ISTQB Foundation Level – Software Testing",
+    issuer: "ISTQB",
+    year: "2024",
+    type: "certification"
   },
   {
-    id: 4,
-    name: "Free Code Camp - JavaScript Algorithms and Data Structures",
+    id: 5,
+    name: "DeepLearning.AI – Introduction to LLMs and RAG",
+    issuer: "DeepLearning.AI",
+    year: "2024",
+    type: "certification"
+  },
+  {
+    id: 6,
+    name: "FreeCodeCamp – JavaScript Algorithms and Data Structures",
     issuer: "Free Code Camp",
     year: "2022",
     type: "course"
   }
 ];
 
+
 export const interests = [
-  "Capture The Flag (CTF) Competitions",
-  "Vulnerability Disclosure Programs",
-  "E-commerce Technologies",
-  "NFT and WEB3 Development",
-  "Bug Bounty Hunting",
-  "Application Security Research"
+  "AI Engineering & Automation",
+  "Software Quality Engineering and Test Automation",
+  "Full-Stack Web Development (MERN Stack)",
+  "Agile Processes and Sprint Leadership",
+  "Product Thinking & Technical Project Management",
+  "Business Strategy and Tech Leadership",
+  "Emerging Technologies like RAG, MCP, and Generative AI"
 ];
+
 
 export const navigationItems = [
   { name: "Home", href: "#home", icon: "Home" },

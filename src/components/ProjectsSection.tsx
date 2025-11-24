@@ -116,15 +116,15 @@ const ProjectsSection: React.FC = () => {
       <div className="absolute inset-0 scan-line opacity-5" />
 
       <div className="container-width relative z-10 px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="projects-header text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            <span className="font-orbitron neon-text">PROJECT</span>
-            <span className="text-jarvis-primary ml-2">ARCHIVES</span>
+         {/* Header */}
+        <div className="about-header text-center mb-10 sm:mb-12 lg:mb-14">
+          <p className="text-jarvis-primary text-xs sm:text-sm font-mono tracking-widest mb-2 sm:mb-3">// PROJECT COMPLETED</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold font-orbitron text-white mb-3 sm:mb-4 px-4">
+            Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary to-jarvis-secondary">Archives</span>
           </h2>
-          <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto scan-line" />
-          <p className="text-jarvis-light text-base sm:text-lg max-w-2xl mx-auto mt-4 sm:mt-6 font-exo2">
-            Complete portfolio of full-stack applications, mobile solutions, and AI-powered systems
+          <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto rounded-full" />
+                    <p className="text-jarvis-light text-base sm:text-lg max-w-2xl mx-auto mt-4 sm:mt-6 font-exo2">
+            Complete portfolio of Full-stack applications, Automation solutions, and AI-powered systems
           </p>
         </div>
 
@@ -203,6 +203,23 @@ const ProjectsSection: React.FC = () => {
                 </div>
               </div>
 
+              {/* GitHub Repository Link */}
+              {project.githubRepo && (
+                <div className="relative z-10 mt-4 flex items-center space-x-2">
+                  <a
+                    href={project.githubRepo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-1 text-jarvis-primary hover:text-jarvis-secondary transition-colors duration-300"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                    <span className="text-xs sm:text-sm font-mono">View on GitHub</span>
+                  </a>
+                </div>
+              )}
+
               {/* Hover expansion indicator */}
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
             </div>
@@ -213,16 +230,16 @@ const ProjectsSection: React.FC = () => {
         <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             {
+              title: 'Automation Testing',
+              value: projects.filter(p => p.category === 'QA & Development').length,
+              icon: '📱',
+              description: 'React Native Apps'
+            },
+            {
               title: 'Full Stack Apps',
               value: projects.filter(p => p.category === 'Full Stack Development').length,
               icon: '⚡',
               description: 'MERN Stack Projects'
-            },
-            {
-              title: 'Mobile Solutions',
-              value: projects.filter(p => p.category === 'Mobile Development').length,
-              icon: '📱',
-              description: 'React Native Apps'
             },
             {
               title: 'AI Integration',

@@ -95,7 +95,7 @@ const About: React.FC = () => {
               <h3 className="text-lg sm:text-xl font-semibold text-white">Profile</h3>
             </div>
 
-            <p className="text-jarvis-light/80 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">{personalInfo.bio}</p>
+            <p className="text-white text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">{personalInfo.bio}</p>
 
             {/* Contact */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -181,7 +181,7 @@ const About: React.FC = () => {
                     </div>
 
                     <div className="text-center p-2 sm:p-2.5 rounded-lg bg-jarvis-secondary/5 border border-jarvis-secondary/10">
-                      <p className="text-xs text-jarvis-secondary/80">Lang</p>
+                      <p className="text-xs text-jarvis-secondary/80">Uni</p>
                       <p className="text-sm font-semibold text-white truncate">{edu.languages}</p>
                     </div>
                   </div>

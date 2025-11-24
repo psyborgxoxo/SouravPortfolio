@@ -191,7 +191,7 @@ const Hero: React.FC = () => {
             {/* Stats */}
             <div className="hero-stats grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 md:gap-6 max-w-xs xs:max-w-sm sm:max-w-md mx-auto lg:mx-0 pt-4 sm:pt-6 lg:pt-8">
               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-primary/20 transition-all duration-300">
-                <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-primary to-jarvis-secondary font-orbitron group-hover:scale-110 transition-transform">4+</div>
+                <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-primary to-jarvis-secondary font-orbitron group-hover:scale-110 transition-transform">15+</div>
                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Projects</div>
               </div>
               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-secondary/20 transition-all duration-300">
@@ -230,7 +230,7 @@ const Hero: React.FC = () => {
 
                   {/* Bottom label */}
                   <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 left-0 right-0 text-center backdrop-blur-sm bg-jarvis-black/30 py-1 sm:py-2 border-t border-jarvis-primary/30">
-                    <div className="text-xs sm:text-sm text-jarvis-primary font-mono font-bold tracking-wider">FULL STACK QAE</div>
+                    <div className="text-xs sm:text-sm text-jarvis-primary font-mono font-bold tracking-wider">SDET/SDE</div>
                   </div>
                 </div>
               </div>
