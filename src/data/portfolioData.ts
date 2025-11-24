@@ -146,9 +146,50 @@ export const projects: Project[] = [
     githubRepo: "https://github.com/psyborgxoxo/ME_QA_XGOOGLE_FORM",
   },
 
+   {
+    id: 4,
+    title: "Leet Code Automation",
+    description:
+      "About End-to-end LeetCode UI automation suite using Selenium, TestNG, and POM architecture. Covers login, problem navigation, filtering, code editor interactions, and submission workflows.",
+    tech: ["Selenium", "Java", "TestNG", "Cross-Browser Testing"],
+    category: "QA & Development",
+    status: "completed",
+    year: "2024",
+    icon: "Form",
+    githubRepo: "https://github.com/psyborgxoxo/ME_QA_XLEETCODE_AUTOMATION",
+  },
+
+     {
+    id: 5,
+    title: "Stack Overflow Automation",
+    description:
+      "UI automation framework for Stack Overflow using Selenium, TestNG, and Page Object Model (POM), focusing on end-to-end workflow validation such as search, navigation, authentication, and question interactions.",
+    tech: ["Selenium", "Java", "TestNG", "Cross-Browser Testing"],
+    category: "QA & Development",
+    status: "completed",
+    year: "2024",
+    icon: "Form",
+    githubRepo: "https://github.com/psyborgxoxo/ME_QA_XSTACKOVERFLOW_AUTOMATION",
+  },
+
+     {
+    id: 6,
+    title: "Q-Trip Automation",
+    description:
+      "UI automation framework for QTrip using Selenium, TestNG, and the Page Object Model (POM), covering end-to-end test workflows including search, filters, booking, reservations, and user authentication.",
+    tech: ["Selenium", "Java", "TestNG", "Cross-Browser Testing"],
+    category: "QA & Development",
+    status: "completed",
+    year: "2025",
+    icon: "Form",
+    githubRepo: "https://github.com/psyborgxoxo/ME_QA_XQTRIP_AUTOMATION",
+  },
+
+  
+
   // New API Automation Project
   {
-    id: 5,
+    id: 7,
     title: "PetStore API Automation",
     description:
       "Automated API testing for PetStore using RestAssured and Java. Validated endpoints for CRUD operations and error handling scenarios.",
@@ -162,7 +203,7 @@ export const projects: Project[] = [
 
   // New Full Stack Development Projects
   {
-    id: 6,
+    id: 8,
     title: "Personal Portfolio Website",
     description:
       "Developed a personal portfolio website using React and Vite. Integrated modern design principles and responsive layouts for optimal user experience.",
@@ -174,7 +215,7 @@ export const projects: Project[] = [
     githubRepo: "https://github.com/psyborgxoxo/SouravPortfolio",
   },
   {
-    id: 7,
+    id: 9,
     title: "Design Hut - Creative Design Platform",
     description:
       "Built a creative design platform using React and Vite. Enabled users to explore and share design templates with interactive features.",
@@ -187,7 +228,7 @@ export const projects: Project[] = [
   },
   // Existing Projects
   {
-    id: 8,
+    id: 10,
     title: "React Web Apps - Social Media MERN Clones",
     description:
       "Built multiple social media applications including Amazon, Tinder, TikTok, Instagram, and WhatsApp clones using MERN stack. Implemented real-time features, authentication systems, and responsive design.",
@@ -199,7 +240,7 @@ export const projects: Project[] = [
     githubRepo: "https://github.com/psyborgxoxo/social-media-clones",
   },
   {
-    id: 9,
+    id: 11,
     title: "E-Commerce Construction Based Website",
     description:
       "Quality Assured Website with comprehensive QA procedures and 50+ work instructions. Monitored field-level performance and reported current status with improvements through research and root cause analysis.",
@@ -211,7 +252,7 @@ export const projects: Project[] = [
     githubRepo: "https://github.com/psyborgxoxo/e-commerce-construction",
   },
   {
-    id: 10,
+    id: 12,
     title: "React Native Apps - Employee Authentication App",
     description:
       "Complete employee authentication system powered by Firebase backend, ready for implementation. Features include secure login, role-based access, and real-time data synchronization.",
@@ -223,7 +264,7 @@ export const projects: Project[] = [
     githubRepo: "https://github.com/psyborgxoxo/employee-auth-app",
   },
   {
-    id: 11,
+    id: 13,
     title: "Job Portal App - AI-Powered MERN Application",
     description:
       "Full stack MERN-based recruiting application with both Employer and Job Seeker suite featuring AI-based search, Video CV with video interview capability, and intelligent job matching algorithms.",
