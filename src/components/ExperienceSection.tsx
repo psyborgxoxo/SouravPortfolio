@@ -11,8 +11,8 @@ const Experience: React.FC = () => {
     {
       id: 1,
       period: "January 2024 – Present",
-      title: "CTO",
-      company: "Design Hut Interior Studio",
+      title: "CTO - Design Hut Studio",
+      company: "Design Hut Studio",
       location: "Karnataka, India",
       type: "Remote",
       url: "https://design-hut.vercel.app/",
@@ -265,3 +265,4 @@ const Experience: React.FC = () => {
 };
 
 export default Experience;
+

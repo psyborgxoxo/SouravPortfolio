@@ -183,6 +183,25 @@ const ContactSection: React.FC = () => {
         </svg>
       ),
     },
+    {
+      name: 'LinkedIn',
+      url: personalInfo.social.linkedin,
+      icon: (
+        <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.48 1s2.5 1.12 2.5 2.5zM.24 8.13h4.48V24H.24zM8.9 8.13h4.29v2.15h.06c.6-1.13 2.08-2.32 4.27-2.32 4.56 0 5.4 3 5.4 6.9V24h-4.48v-7.8c0-1.86-.03-4.24-2.58-4.24-2.58 0-2.98 2.01-2.98 4.1V24H8.9V8.13z" />
+        </svg>
+      ),
+    },
+    {
+      name: 'Instagram',
+      url: personalInfo.social.instagram,
+      icon: (
+        <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.056 1.97.24 2.427.403a4.92 4.92 0 0 1 1.75 1.145 4.92 4.92 0 0 1 1.145 1.75c.163.457.347 1.257.403 2.427.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.056 1.17-.24 1.97-.403 2.427a4.92 4.92 0 0 1-1.145 1.75 4.92 4.92 0 0 1-1.75 1.145c-.457.163-1.257.347-2.427.403-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.056-1.97-.24-2.427-.403a4.92 4.92 0 0 1-1.75-1.145 4.92 4.92 0 0 1-1.145-1.75c-.163-.457-.347-1.257-.403-2.427C2.175 15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85c.056-1.17.24-1.97.403-2.427a4.92 4.92 0 0 1 1.145-1.75 4.92 4.92 0 0 1 1.75-1.145c.457-.163 1.257-.347 2.427-.403C8.416 2.175 8.796 2.163 12 2.163zm0 3.675a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm7.2-1.845a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z" />
+        </svg>
+      ),
+    },
+
   ];
 
   return (
@@ -294,8 +313,8 @@ const ContactSection: React.FC = () => {
         {/* Footer */}
         <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-jarvis-primary/20 text-center">
           <p className="text-jarvis-light font-mono text-xs sm:text-sm">
-            © 2024 {personalInfo.name}. Built with React, TypeScript, Tailwind CSS, and GSAP.
-            <span className="text-jarvis-primary ml-2">JARVIS-INSPIRED DESIGN</span>
+            © 2025.Built with TypeScript, Tailwind CSS, and GSAP.
+            <span className="text-jarvis-primary ml-2">Powred By ST3GN0</span>
           </p>
         </div>
       </div>

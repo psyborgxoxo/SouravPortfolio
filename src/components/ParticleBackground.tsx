@@ -45,7 +45,10 @@ const ParticleBackground: React.FC = () => {
           speedX: (Math.random() - 0.5) * 0.5,
           speedY: (Math.random() - 0.5) * 0.5,
           opacity: Math.random() * 0.6 + 0.2,
-          color: Math.random() > 0.5 ? '#00D4FF' : '#00FFFF'
+          // color: Math.random() > 0.5 ? '#00D4FF' : '#00FFFF'
+          color: Math.random() > 0.5 ? '#ffffffff' : '#ffffffff'
+          // color: Math.random() > 0.5 ? '#ff0000ff' : '#ff0000ff'
+
         });
       }
     };
@@ -122,3 +125,4 @@ const ParticleBackground: React.FC = () => {
 };
 
 export default ParticleBackground;
+

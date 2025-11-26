@@ -84,12 +84,12 @@ const Navigation: React.FC = () => {
                 </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-pulse-glow border-2 border-jarvis-black" />
               </div>
-              <div className="hidden sm:block">
+              {/* <div className="hidden sm:block">
                 <div className="font-orbitron font-bold text-lg text-jarvis-white">
                   <span className="neon-text">SOURAV</span>
                 </div>
                 <div className="text-xs text-jarvis-light font-mono">STATUS: ONLINE</div>
-              </div>
+              </div> */}
             </div>
 
             {/* Desktop Navigation */}

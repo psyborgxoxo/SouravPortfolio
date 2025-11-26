@@ -39,6 +39,8 @@ export interface PersonalInfo {
   profileImage: string;
   social: {
     github: string;
+    linkedin:string
+    instagram:string
     portfolio: string;
     email: string;
     phone: string;
@@ -66,7 +68,7 @@ export interface Certification {
 
 export const personalInfo: PersonalInfo = {
   name: "SOURAV",
-  title: "Full Stack QAE , MERN Stack Dev & AI Generalist",
+  title: "Full Stack SDET , MERN Stack Dev & AI Generalist",
   tagline: "Electronics Engineer | QA Specialist | MERN Developer | Cybersecurity Enthusiast | AI Generalist",
   bio: " Detail-oriented SDET with 2.5 years of experience in manual and automation testing, API validation, CI/CD integration, and building scalable test frameworks using Java, Selenium, TestNG, and RestAssured. Proven track record of improving release quality and engineering velocity through intelligent automation and strong collaboration with product and development teams at Fynd (Jio Commerce). Experienced across functional, regression, and system testing with hands-on expertise in designing test strategies, analyzing requirements, and driving sprint-level QA ownership. Brings emerging capabilities in AI-driven testing, including self-healing automation, LLM-assisted test generation, and RAG-based validation workflows. Strong technical foundation, a product-centric mindset, and the ability to deliver reliable, high-quality releases in fast-paced Agile environments. ",
   location: "Bangalore, India",
@@ -76,6 +78,8 @@ export const personalInfo: PersonalInfo = {
   profileImage: "/profile-photo1.jpeg",
   social: {
     github: "https://github.com/psyborgxoxo",
+    linkedin:"",
+    instagram:"",
     portfolio: "sourav.io",
     email: "souravshetty11@gmail.com",
     phone: "+91 6360642212"
@@ -202,67 +206,67 @@ export const projects: Project[] = [
   },
 
   // New Full Stack Development Projects
-  {
-    id: 8,
-    title: "Personal Portfolio Website",
-    description:
-      "Developed a personal portfolio website using React and Vite. Integrated modern design principles and responsive layouts for optimal user experience.",
-    tech: ["React", "Vite", "Tailwind CSS", "TypeScript"],
-    category: "Full Stack Development",
-    status: "completed",
-    year: "2023",
-    icon: "Portfolio",
-    githubRepo: "https://github.com/psyborgxoxo/SouravPortfolio",
-  },
+  // {
+  //   id: 8,
+  //   title: "Personal Portfolio Website",
+  //   description:
+  //     "Developed a personal portfolio website using React and Vite. Integrated modern design principles and responsive layouts for optimal user experience.",
+  //   tech: ["React", "Vite", "Tailwind CSS", "TypeScript"],
+  //   category: "Full Stack Development",
+  //   status: "completed",
+  //   year: "2023",
+  //   icon: "Portfolio",
+  //   githubRepo: "https://github.com/psyborgxoxo/SouravPortfolio",
+  // },
   {
     id: 9,
     title: "Design Hut - Creative Design Platform",
     description:
       "Built a creative design platform using React and Vite. Enabled users to explore and share design templates with interactive features.",
     tech: ["React", "Vite", "Styled Components", "ESLint"],
-    category: "Full Stack Development",
+    category: "AI & Full Stack",
     status: "completed",
     year: "2023",
     icon: "Design",
     githubRepo: "https://github.com/psyborgxoxo/design-hut",
   },
   // Existing Projects
-  {
-    id: 10,
-    title: "React Web Apps - Social Media MERN Clones",
-    description:
-      "Built multiple social media applications including Amazon, Tinder, TikTok, Instagram, and WhatsApp clones using MERN stack. Implemented real-time features, authentication systems, and responsive design.",
-    tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Socket.io"],
-    category: "Full Stack Development",
-    status: "completed",
-    year: "2022",
-    icon: "SocialNetwork",
-    githubRepo: "https://github.com/psyborgxoxo/social-media-clones",
-  },
-  {
-    id: 11,
-    title: "E-Commerce Construction Based Website",
-    description:
-      "Quality Assured Website with comprehensive QA procedures and 50+ work instructions. Monitored field-level performance and reported current status with improvements through research and root cause analysis.",
-    tech: ["React.js", "JavaScript", "QA Tools", "Performance Monitoring"],
-    category: "QA & Development",
-    status: "completed",
-    year: "2022",
-    icon: "Construction",
-    githubRepo: "https://github.com/psyborgxoxo/e-commerce-construction",
-  },
-  {
-    id: 12,
-    title: "React Native Apps - Employee Authentication App",
-    description:
-      "Complete employee authentication system powered by Firebase backend, ready for implementation. Features include secure login, role-based access, and real-time data synchronization.",
-    tech: ["React Native", "Firebase", "Authentication Services", "Redux"],
-    category: "Mobile Development",
-    status: "completed",
-    year: "2022",
-    icon: "MobileApp",
-    githubRepo: "https://github.com/psyborgxoxo/employee-auth-app",
-  },
+  // {
+  //   id: 10,
+  //   title: "React Web Apps - Social Media MERN Clones",
+  //   description:
+  //     "Built multiple social media applications including Amazon, Tinder, TikTok, Instagram, and WhatsApp clones using MERN stack. Implemented real-time features, authentication systems, and responsive design.",
+  //   tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Socket.io"],
+  //   category: "Full Stack Development",
+  //   status: "completed",
+  //   year: "2022",
+  //   icon: "SocialNetwork",
+  //   githubRepo: "https://github.com/psyborgxoxo/social-media-clones",
+  // },
+  // {
+  //   id: 11,
+  //   title: "E-Commerce Construction Based Website",
+  //   description:
+  //     "Quality Assured Website with comprehensive QA procedures and 50+ work instructions. Monitored field-level performance and reported current status with improvements through research and root cause analysis.",
+  //   tech: ["React.js", "JavaScript", "QA Tools", "Performance Monitoring"],
+  //   category: "QA & Development",
+  //   status: "completed",
+  //   year: "2022",
+  //   icon: "Construction",
+  //   githubRepo: "https://github.com/psyborgxoxo/e-commerce-construction",
+  // },
+  // {
+  //   id: 12,
+  //   title: "React Native Apps - Employee Authentication App",
+  //   description:
+  //     "Complete employee authentication system powered by Firebase backend, ready for implementation. Features include secure login, role-based access, and real-time data synchronization.",
+  //   tech: ["React Native", "Firebase", "Authentication Services", "Redux"],
+  //   category: "Mobile Development",
+  //   status: "completed",
+  //   year: "2022",
+  //   icon: "MobileApp",
+  //   githubRepo: "https://github.com/psyborgxoxo/employee-auth-app",
+  // },
   {
     id: 13,
     title: "Job Portal App - AI-Powered MERN Application",
