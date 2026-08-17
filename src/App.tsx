@@ -9,14 +9,13 @@
 // import Navigation from './components/Navigation';
 // import Hero from './components/Hero';
 // import About from './components/About';
-// import SkillsSection from './components/SkillsSection';
 // import ExperienceSection from './components/ExperienceSection';
 // import ContactSection from './components/ContactSection';
 // import Analytics from './components/Analytics';
 
 // import ProjectsPage from './pages/ProjectsPage';
 // import AboutPage from './pages/AboutPage';
-
+// import SkillsPage from './pages/SkillsPage';
 
 // // Register GSAP plugins
 // gsap.registerPlugin(ScrollTrigger);
@@ -88,8 +87,8 @@
 //               <main className="relative z-10">
 //                 <Hero />
 //                 <About />
-//                 <SkillsSection />
-
+                
+//                 {/* Skills moved to /skills */}
 //                 {/* Projects moved to /projects */}
 
 //                 <ExperienceSection />
@@ -165,6 +164,14 @@
 //           element={<AboutPage />}
 //         />
 
+//         {/* =====================================================
+//             SKILLS PAGE
+//             ===================================================== */}
+//         <Route
+//           path="/skills"
+//           element={<SkillsPage />}
+//         />
+
 //       </Routes>
 //     </BrowserRouter>
 //   );
@@ -172,25 +179,21 @@
 
 // export default App;
 
-
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// import ParticleBackground from './components/ParticleBackground';
-// Disabled for strict terminal aesthetic
-
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import About from './components/About';
-import ExperienceSection from './components/ExperienceSection';
 import ContactSection from './components/ContactSection';
 import Analytics from './components/Analytics';
 
 import ProjectsPage from './pages/ProjectsPage';
 import AboutPage from './pages/AboutPage';
 import SkillsPage from './pages/SkillsPage';
+import ExperiencePage from './pages/ExperiencePage';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -252,9 +255,6 @@ function App() {
               {/* Google Analytics */}
               <Analytics />
 
-              {/* Particle Background Disabled */}
-              {/* <ParticleBackground /> */}
-
               {/* Navigation */}
               <Navigation />
 
@@ -265,8 +265,8 @@ function App() {
                 
                 {/* Skills moved to /skills */}
                 {/* Projects moved to /projects */}
+                {/* Experience moved to /experience */}
 
-                <ExperienceSection />
                 <ContactSection />
               </main>
 
@@ -304,16 +304,13 @@ function App() {
                 <div className="text-left font-mono">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="w-2 h-2 bg-[#F59E0B] animate-pulse" />
-
                     <p className="text-[#F59E0B] text-[10px] tracking-widest uppercase">
                       SYS.BOOT_SEQ // INIT
                     </p>
                   </div>
-
                   <p className="text-[#5EEAD4] text-lg tracking-widest uppercase">
                     LOADING_OPERATOR_DATA...
                   </p>
-
                   <div className="mt-4 text-[#475569] text-xs tracking-widest">
                     [████████████████████████████████] 100%
                   </div>
@@ -326,26 +323,22 @@ function App() {
         {/* =====================================================
             PROJECTS PAGE
             ===================================================== */}
-        <Route
-          path="/projects"
-          element={<ProjectsPage />}
-        />
+        <Route path="/projects" element={<ProjectsPage />} />
 
         {/* =====================================================
             ABOUT PAGE
             ===================================================== */}
-        <Route
-          path="/about"
-          element={<AboutPage />}
-        />
+        <Route path="/about" element={<AboutPage />} />
 
         {/* =====================================================
             SKILLS PAGE
             ===================================================== */}
-        <Route
-          path="/skills"
-          element={<SkillsPage />}
-        />
+        <Route path="/skills" element={<SkillsPage />} />
+
+        {/* =====================================================
+            EXPERIENCE PAGE
+            ===================================================== */}
+        <Route path="/experience" element={<ExperiencePage />} />
 
       </Routes>
     </BrowserRouter>
