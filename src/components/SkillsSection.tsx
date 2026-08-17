@@ -1,305 +1,293 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { skills } from '../data/portfolioData';
+
+// Assuming these come from your data file
+import { skills, Skill } from '../data/portfolioData';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SkillsSection: React.FC = () => {
-  const skillsRef = useRef<HTMLDivElement>(null);
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [filteredSkills, setFilteredSkills] = useState(skills);
-  const [isMobile, setIsMobile] = useState(false);
+/* ──────────────────────────────────────────────────────────────
+   Types & Palette
+   ────────────────────────────────────────────────────────────── */
+type Tier = 'growing' | 'solid' | 'strong';
+
+const getTier = (proficiency: number): Tier => {
+  if (proficiency >= 85) return 'strong';
+  if (proficiency >= 70) return 'solid';
+  return 'growing';
+};
+
+// Updated to the Matte / Intelligence Palette
+const tierStyles: Record<Tier, { bar: string; text: string; label: string }> = {
+  growing: { bar: '#F59E0B', text: 'text-[#F59E0B]', label: 'GROWING' }, // Amber
+  solid: { bar: '#5EEAD4', text: 'text-[#5EEAD4]', label: 'SOLID' },   // Teal
+  strong: { bar: '#10B981', text: 'text-[#10B981]', label: 'STRONG' },  // Emerald
+};
+
+const categories = [
+  { id: 'all', name: 'ALL_SYSTEMS' },
+  { id: 'Quality Assurance & Testing', name: 'QA_AUTOMATION' },
+  { id: 'Programming Languages', name: 'CORE_LANGUAGES' },
+  { id: 'CI/CD & Version Control', name: 'PIPELINES_CICD' },
+  { id: 'AI', name: 'AI_INTEGRATION' },
+  { id: 'Security & Development', name: 'SEC_DEV' },
+];
+
+/* ──────────────────────────────────────────────────────────────
+   Custom Hook: Cryptographic Text Scramble
+   ────────────────────────────────────────────────────────────── */
+const useDecryptionEffect = (text: string, trigger: boolean, speed = 25) => {
+  const [displayText, setDisplayText] = useState('');
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*<>';
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    if (!trigger) return;
+    let iteration = 0;
+    let interval: NodeJS.Timeout;
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    interval = setInterval(() => {
+      setDisplayText(text.split('').map((char, index) => {
+        if (index < iteration || char === ' ') return text[index];
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join(''));
 
-  // GSAP Animations
-  useEffect(() => {
-    if (!isMobile) {
-      const ctx = gsap.context(() => {
-        gsap.fromTo(
-          '.skills-header',
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: '.skills-section',
-              start: 'top 80%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        );
+      if (iteration >= text.length) clearInterval(interval);
+      iteration += 1 / 2;
+    }, speed);
 
-        gsap.fromTo(
-          '.skill-card',
-          { opacity: 0, y: 50, scale: 0.8 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            ease: 'back.out(1.7)',
-            stagger: 0.1,
-            scrollTrigger: {
-              trigger: '.skills-grid',
-              start: 'top 85%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        );
-      }, skillsRef);
+    return () => clearInterval(interval);
+  }, [text, trigger, speed]);
 
-      return () => ctx.revert();
-    }
-  }, [isMobile]);
+  return displayText;
+};
 
-  useEffect(() => {
-    if (activeCategory === 'all') {
-      setFilteredSkills(skills);
-    } else {
-      setFilteredSkills(skills.filter(skill => skill.category === activeCategory));
-    }
-  }, [activeCategory]);
+/* ──────────────────────────────────────────────────────────────
+   Skill Row (Telemetry Block)
+   ────────────────────────────────────────────────────────────── */
+const SkillRow: React.FC<{ skill: Skill; animateBars: boolean }> = ({ skill, animateBars }) => {
+  const tier = getTier(skill.proficiency);
+  const style = tierStyles[tier];
 
-  const categories = [
-    { id: 'all', name: 'All', icon: '⚡' },
-    { id: 'Full Stack Development', name: 'Full Stack', icon: '🔧' },
-    { id: 'Quality Assurance & Testing', name: 'QA', icon: '🔍' },
-    { id: 'Programming Languages', name: 'Programming', icon: '💻' },
-    { id: 'API & Testing Tools', name: 'API', icon: '🔗' },
-    { id: 'Emerging Technologies', name: 'Tech', icon: '🚀' },
-    { id: 'Security & Development', name: 'Security', icon: '🛡️' },
-  ];
+  return (
+    <div className="skills-content group bg-[#0B0E14] p-4 md:p-5 flex flex-col justify-between hover:bg-[#11151C] transition-colors duration-200">
 
-  const getSkillColor = (proficiency: number) => {
-    if (proficiency >= 90) return 'from-jarvis-primary to-jarvis-secondary';
-    if (proficiency >= 80) return 'from-jarvis-secondary to-jarvis-accent';
-    if (proficiency >= 70) return 'from-jarvis-accent to-purple-500';
-    return 'from-purple-500 to-yellow-400';
-  };
-
-  const getSkillLevel = (proficiency: number) => {
-    if (proficiency >= 90) return 'EXPERT';
-    if (proficiency >= 80) return 'ADVANCED';
-    if (proficiency >= 70) return 'INTERMEDIATE';
-    return 'LEARNING';
-  };
-
-  // Mobile Compact Card Component
-  const MobileSkillCard = ({ skill }: { skill: any }) => (
-    <div className="skill-card bg-gradient-to-br from-gray-900 to-gray-800 border border-white/10 rounded-lg p-3 hover:border-jarvis-primary/30 transition-all duration-300">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-sm font-semibold text-white truncate flex-1 mr-2">{skill.name}</h3>
-        <div className={`px-2 py-0.5 rounded text-xs font-bold bg-gradient-to-r ${getSkillColor(skill.proficiency)} text-black`}>
-          {skill.proficiency}%
-        </div>
-      </div>
-
-      <div className="w-full bg-gray-950 rounded-full h-1.5 mb-2 overflow-hidden">
-        <div
-          className={`h-full bg-gradient-to-r ${getSkillColor(skill.proficiency)} rounded-full transition-all duration-500`}
-          style={{ width: `${skill.proficiency}%` }}
-        />
-      </div>
-
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-jarvis-light/60 truncate">{skill.category.split(' ')[0]}</span>
-        <div className="flex space-x-0.5">
-          {[...Array(5)].map((_, i) => (
-            <div
-              key={i}
-              className={`w-1 h-1 rounded-full ${i < Math.floor(skill.proficiency / 20) ? 'bg-jarvis-primary' : 'bg-gray-600'}`}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  // Desktop Full Card Component
-  const DesktopSkillCard = ({ skill }: { skill: any }) => (
-    <div className="skill-card bg-gradient-to-br from-gray-900 to-gray-800 border border-white/10 rounded-xl p-6 hover:border-jarvis-primary/30 transition-all duration-300 group cursor-pointer relative overflow-hidden hover:shadow-glow">
-      <div className="absolute inset-0 bg-gradient-to-r from-jarvis-primary/5 via-jarvis-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-      <div className="flex items-center justify-between mb-4 relative z-10">
-        <h3 className="text-lg font-semibold text-white group-hover:text-jarvis-primary transition-colors duration-300">
+      {/* Header Row */}
+      <div className="flex items-center justify-between mb-3">
+        <span className="font-mono text-[12px] text-[#94A3B8] group-hover:text-[#5EEAD4] transition-colors duration-200 uppercase tracking-wider truncate mr-4">
           {skill.name}
-        </h3>
-        <div className={`px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r ${getSkillColor(skill.proficiency)} text-black`}>
-          {getSkillLevel(skill.proficiency)}
-        </div>
+        </span>
+        <span className={`font-mono text-[10px] shrink-0 ${style.text}`}>
+          {skill.proficiency}%
+        </span>
       </div>
 
-      <div className="mb-4 relative z-10">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm text-jarvis-light/60">PROFICIENCY</span>
-          <span className="text-sm font-bold text-jarvis-primary">{skill.proficiency}%</span>
-        </div>
-        <div className="w-full bg-gray-950 rounded-full h-3 border border-white/10 overflow-hidden">
-          <div
-            className={`h-full bg-gradient-to-r ${getSkillColor(skill.proficiency)} rounded-full relative overflow-hidden transition-all duration-500`}
-            style={{ width: `${skill.proficiency}%` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
-          </div>
-        </div>
+      {/* Segmented Hardware Progress Bar */}
+      <div className="w-full h-1.5 bg-[#05070A] border border-[#1E293B] overflow-hidden mb-3 relative">
+        {/* Fill */}
+        <div
+          className="h-full transition-all duration-1000 ease-out"
+          style={{
+            width: animateBars ? `${skill.proficiency}%` : '0%',
+            backgroundColor: style.bar
+          }}
+        />
+        {/* Scanner Line Overlay */}
+        <div className="absolute inset-0 bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABZJREFUeNpi2rV7928GBgYmMAEEAAgwADugCW/z2r+zAAAAAElFTkSuQmCC')] opacity-20 pointer-events-none" />
       </div>
 
-      <div className="flex items-center justify-between relative z-10">
-        <span className="px-3 py-1 bg-jarvis-primary/10 text-jarvis-primary text-xs rounded-full border border-jarvis-primary/20">
+      {/* Metadata Row */}
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-[9px] text-[#475569] uppercase tracking-widest truncate">
           {skill.category}
         </span>
-
-        <div className="flex space-x-1">
-          {[...Array(5)].map((_, i) => (
-            <div
-              key={i}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${i < Math.floor(skill.proficiency / 20)
-                ? 'bg-jarvis-primary shadow-lg shadow-jarvis-primary/50'
-                : 'bg-gray-600'
-                }`}
-            />
-          ))}
-        </div>
+        <span className={`font-mono text-[9px] shrink-0 tracking-widest uppercase ${style.text}`}>
+          [{style.label}]
+        </span>
       </div>
     </div>
   );
+};
 
+/* ──────────────────────────────────────────────────────────────
+   Skills Section (Main Workstation Interface)
+   ────────────────────────────────────────────────────────────── */
+const SkillsSection: React.FC = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [isVisible, setIsVisible] = useState(false);
+  const [animateBars, setAnimateBars] = useState(false);
+
+  // Decryption effect triggers when section scrolls into view
+  const headerDecrypted = useDecryptionEffect("SYSTEM_COVERAGE_REPORT", isVisible, 30);
+
+  /* ──────────────────────────────────────────────────────────
+     GSAP Animations (Hardware Snap)
+     ────────────────────────────────────────────────────────── */
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hardware off state
+      gsap.set('.skills-panel', { borderColor: '#000000', backgroundColor: '#000000' });
+      gsap.set('.skills-content', { opacity: 0 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          onEnter: () => setIsVisible(true),
+        },
+      });
+
+      tl.to('.skills-panel', { borderColor: '#1E293B', duration: 0.1, ease: 'none' })
+        .to('.skills-panel', { backgroundColor: 'transparent', duration: 0.1, ease: 'none' })
+        .to('.panel-fill', { backgroundColor: '#11151C', duration: 0.1, ease: 'none' }, '<')
+        .to('.skills-content', { opacity: 1, duration: 0.1, stagger: 0.02, ease: 'none' })
+        .call(() => setAnimateBars(true)); // Trigger progress bars to fill
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [activeCategory]); // Re-run animation slightly when filtering
+
+  /* ──────────────────────────────────────────────────────────
+     Calculations
+     ────────────────────────────────────────────────────────── */
+  const filteredSkills = activeCategory === 'all'
+    ? skills
+    : skills.filter((skill) => skill.category === activeCategory);
+
+  const avgCoverage = skills.length > 0
+    ? Math.round(skills.reduce((sum, skill) => sum + skill.proficiency, 0) / skills.length)
+    : 0;
+
+  const summary = [
+    { label: 'QA_PIPELINES', count: skills.filter(s => s.category === 'Quality Assurance & Testing').length },
+    { label: 'LANG_RUNTIME', count: skills.filter(s => s.category === 'Programming Languages').length },
+    { label: 'CICD_ORCHESTRATION', count: skills.filter(s => s.category === 'CI/CD & Version Control').length },
+    { label: 'AI_MODELS', count: skills.filter(s => s.category === 'AI').length },
+  ];
+
+  /* ──────────────────────────────────────────────────────────
+     Render
+     ────────────────────────────────────────────────────────── */
   return (
     <section
       id="skills"
-      ref={skillsRef}
-      className="skills-section section-padding relative z-10 overflow-hidden"
-      data-section="skills"
+      ref={sectionRef}
+      className="relative z-10 min-h-screen bg-[#05070A] py-24 px-4 sm:px-8 flex flex-col font-mono selection:bg-[#5EEAD4] selection:text-[#0B0E14]"
     >
-      {/* Background gradient overlays */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[300px] sm:w-[400px] lg:w-[500px] 
-        h-[300px] sm:h-[400px] lg:h-[500px] bg-jarvis-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[250px] sm:w-[350px] lg:w-[400px] 
-        h-[250px] sm:h-[350px] lg:h-[400px] bg-jarvis-secondary/5 rounded-full blur-3xl" />
-      </div>
+      <div className="max-w-[1200px] w-full mx-auto relative flex flex-col">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-         {/* Header */}
-        <div className="about-header text-center mb-10 sm:mb-12 lg:mb-14">
-          <p className="text-jarvis-primary text-xs sm:text-sm font-mono tracking-widest mb-2 sm:mb-3">// WHAT I DO</p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold font-orbitron text-white mb-3 sm:mb-4 px-4">
-            Skill <span className="text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary to-jarvis-secondary">Database</span>
-          </h2>
-          <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto rounded-full" />
-           <p className="text-jarvis-light/60 text-sm md:text-lg max-w-2xl mx-auto mt-4 md:mt-6 px-4">
-            Advanced skill matrix with proficiency levels and real-world application expertise
-          </p>
-        </div>
-
-        {/* Category Filter - Horizontal Scroll on Mobile */}
-        <div className="mb-8 md:mb-12 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
-          <div className="flex md:flex-wrap md:justify-center gap-2 md:gap-3 min-w-max md:min-w-0">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg font-medium transition-all duration-300 text-xs md:text-sm whitespace-nowrap flex-shrink-0 ${activeCategory === category.id
-                  ? 'bg-jarvis-primary text-jarvis-black shadow-glow'
-                  : 'holographic-panel text-jarvis-light hover:text-jarvis-primary hover:shadow-glow-sm'
-                  }`}
-              >
-                <span className="mr-1 md:mr-2">{category.icon}</span>
-                {category.name}
-              </button>
-            ))}
+        {/* ────────────────────────────────────────────────
+            HEADER CHROME
+        ──────────────────────────────────────────────── */}
+        <div className="skills-panel border border-[#1E293B] bg-[#11151C] flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 py-3 mb-6 panel-fill">
+          <div className="skills-content flex items-center gap-3">
+            <span className="w-2 h-2 bg-[#5EEAD4] animate-pulse" />
+            <h2 className="text-[12px] text-[#5EEAD4] tracking-widest uppercase">
+              {headerDecrypted || "AWAITING_DECRYPTION..."}
+            </h2>
+          </div>
+          <div className="skills-content text-[10px] text-[#475569] tracking-widest mt-2 sm:mt-0 uppercase">
+            TRACKED_NODES: {skills.length} // AVG_COVERAGE: {avgCoverage}%
           </div>
         </div>
 
-        {/* Skills Grid - Responsive Layout */}
-        <div className={`skills-grid grid gap-3 md:gap-6 ${isMobile ? 'grid-cols-1 sm:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+        {/* ────────────────────────────────────────────────
+            CATEGORY FILTER BAR
+        ──────────────────────────────────────────────── */}
+        <div className="skills-panel border border-[#1E293B] bg-[#0B0E14] mb-6 flex overflow-x-auto hide-scrollbar">
+          {categories.map((category) => {
+            const isActive = activeCategory === category.id;
+            return (
+              <button
+                key={category.id}
+                onClick={() => {
+                  setAnimateBars(false); // Reset bars
+                  setActiveCategory(category.id);
+                }}
+                className={`
+                  skills-content relative font-mono text-[10px] tracking-widest px-5 py-3 
+                  uppercase whitespace-nowrap border-r border-[#1E293B] transition-colors duration-200
+                  ${isActive ? 'text-[#5EEAD4] bg-[#11151C]' : 'text-[#475569] hover:text-[#94A3B8] hover:bg-[#11151C]/50'}
+                `}
+              >
+                {isActive && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#5EEAD4]" />}
+                {category.name}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ────────────────────────────────────────────────
+            SKILLS TELEMETRY GRID (Hairline Borders)
+        ──────────────────────────────────────────────── */}
+        <div className="skills-panel border border-[#1E293B] bg-[#1E293B] gap-[1px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-6">
           {filteredSkills.map((skill) => (
-            isMobile ? (
-              <MobileSkillCard key={`${skill.name}-${activeCategory}`} skill={skill} />
-            ) : (
-              <DesktopSkillCard key={`${skill.name}-${activeCategory}`} skill={skill} />
-            )
+            <SkillRow
+              key={`${skill.name}-${activeCategory}`}
+              skill={skill}
+              animateBars={animateBars}
+            />
+          ))}
+          {/* Fill empty grid spots with blank blocks for a complete UI feel if needed */}
+          {filteredSkills.length % 3 !== 0 && Array.from({ length: 3 - (filteredSkills.length % 3) }).map((_, i) => (
+            <div key={`empty-${i}`} className="bg-[#0B0E14] hidden lg:block pattern-dots" />
           ))}
         </div>
 
-        {/* Skills Summary - Compact on Mobile */}
-        <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
-          {[
-            {
-              label: 'QA & Testing',
-              count: skills.filter(s => s.category === 'Quality Assurance & Testing').length,
-              icon: '🔍',
-              color: 'text-jarvis-secondary',
-            },
-            {
-              label: 'Programming',
-              count: skills.filter(s => s.category === 'Programming Languages').length,
-              icon: '💻',
-              color: 'text-jarvis-accent',
-            },
-              {
-              label: 'CI/CD & Version Control',
-              count: skills.filter(s => s.category === 'CI/CD & Version Control').length,
-              icon: '⚡',
-              color: 'text-jarvis-primary',
-            },
-            {
-              label: 'Artificial Intelligence',
-              count: skills.filter(s => s.category === 'AI').length,
-              icon: '🛡️',
-              color: 'text-green-400',
-            },
-          ].map((category, index) => (
-            <div
-              key={index}
-              className="holographic-panel p-4 md:p-6 rounded-xl text-center hover:shadow-glow transition-all duration-300"
-            >
-              <div className={`text-2xl md:text-3xl mb-2 md:mb-3 ${category.color}`}>
-                {category.icon}
+        {/* ────────────────────────────────────────────────
+            BOTTOM DATA METRICS
+        ──────────────────────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          {/* Summary Counts */}
+          <div className="skills-panel lg:col-span-8 border border-[#1E293B] bg-[#1E293B] gap-[1px] grid grid-cols-2 md:grid-cols-4">
+            {summary.map((item) => (
+              <div key={item.label} className="skills-content bg-[#0B0E14] p-4 flex flex-col justify-between hover:bg-[#11151C] transition-colors">
+                <div className="text-[10px] text-[#475569] uppercase tracking-widest mb-4">
+                  {item.label}
+                </div>
+                <div className="text-2xl text-[#94A3B8] font-light">
+                  {item.count}
+                </div>
               </div>
-              <div className={`text-xl md:text-2xl font-bold mb-1 ${category.color}`}>
-                {category.count}
-              </div>
-              <div className="text-xs md:text-sm text-jarvis-light/60">{category.label}</div>
+            ))}
+          </div>
+
+          {/* Core Stack Block */}
+          <div className="skills-panel lg:col-span-4 border border-[#1E293B] bg-[#0B0E14] p-4 flex flex-col">
+            <div className="skills-content text-[10px] text-[#475569] uppercase tracking-widest mb-4">
+              [ CORE_STACK_CAPABILITIES ]
             </div>
-          ))}
-        </div>
-
-        {/* Tech Stack Overview */}
-        <div className="mt-12 md:mt-16">
-          <div className="holographic-panel p-6 md:p-8 rounded-2xl text-center hover:shadow-glow transition-all duration-300">
-            <h3 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary to-jarvis-secondary">CORE</span>
-              <span className="ml-2 text-jarvis-primary">TECHNOLOGIES</span>
-            </h3>
-            <p className="text-jarvis-light/60 text-sm md:text-base mb-4 md:mb-6 px-2">
-              Primary technology stack and specialized tools for modern full-stack development
-            </p>
-            <div className="flex flex-wrap justify-center gap-2 md:gap-4">
-              {['Automation', 'Development','QA Testing', 'Cybersecurity', 'AI'].map((tech, index) => (
+            <div className="skills-content flex flex-wrap gap-2 mt-auto">
+              {['Automation', 'Development', 'QA Testing', 'Cybersecurity', 'AI'].map((tech) => (
                 <span
-                  key={index}
-                  className="px-3 md:px-4 py-1.5 md:py-2 bg-jarvis-primary/10 text-jarvis-primary text-xs md:text-sm rounded-full border border-jarvis-primary/20 hover:bg-jarvis-primary/20 transition-colors duration-300"
+                  key={tech}
+                  className="font-mono text-[10px] uppercase text-[#94A3B8] border border-[#1E293B] px-2 py-1 hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors cursor-default"
                 >
-                  {tech}
-                </span>
+                  <span className="text-[#475569] mr-1">{'>'}</span>{tech}                </span>
               ))}
             </div>
           </div>
+
         </div>
+
       </div>
+
+      <style>{`
+        /* Hide scrollbar for filter strip but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Subtle dot pattern for empty grid cells */
+        .pattern-dots {
+          background-image: radial-gradient(#1E293B 1px, transparent 1px);
+          background-size: 16px 16px;
+          opacity: 0.3;
+        }
+      `}</style>
     </section>
   );
 };

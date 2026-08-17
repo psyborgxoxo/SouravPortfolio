@@ -1,1326 +1,427 @@
-// import React, { useEffect, useRef } from 'react';
-// import { gsap } from 'gsap';
-// import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// import { TextPlugin } from 'gsap/TextPlugin';
-// import { personalInfo } from '../data/portfolioData';
-
-// gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
-// const Hero: React.FC = () => {
-//   const heroRef = useRef<HTMLDivElement>(null);
-//   const textRef = useRef<HTMLDivElement>(null);
-//   const profileRef = useRef<HTMLDivElement>(null);
-//   const uiElementsRef = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     const ctx = gsap.context(() => {
-//       // Animate title, subtitle, and buttons
-//       const tl = gsap.timeline({ delay: 0.5 });
-
-//       gsap.set(['.hero-title', '.hero-subtitle', '.hero-tagline', '.hero-buttons'], {
-//         opacity: 0,
-//         y: 50,
-//       });
-
-//       tl.to('.hero-title', {
-//         opacity: 1,
-//         y: 0,
-//         duration: 1.2,
-//         ease: 'power3.out',
-//       })
-//         .to(
-//           '.hero-subtitle',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 1,
-//             ease: 'power3.out',
-//           },
-//           '-=0.8'
-//         )
-//         .to(
-//           '.hero-tagline',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 0.8,
-//             ease: 'power3.out',
-//           },
-//           '-=0.6'
-//         )
-//         .to(
-//           '.hero-buttons',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 0.8,
-//             ease: 'power3.out',
-//           },
-//           '-=0.5'
-//         );
-
-//       // Floating profile image animation
-//       gsap.to('.profile-image', {
-//         y: -15,
-//         duration: 3,
-//         ease: 'sine.inOut',
-//         repeat: -1,
-//         yoyo: true,
-//       });
-
-//       // Typing effect for tagline
-//       const words = personalInfo.tagline.split(' ');
-//       let currentWordIndex = 0;
-
-//       const typeWords = () => {
-//         if (currentWordIndex < words.length) {
-//           const currentText = words.slice(0, currentWordIndex + 1).join(' ');
-//           gsap.to('.tagline-text', {
-//             text: currentText,
-//             duration: 0.5,
-//             ease: 'none',
-//             onComplete: () => {
-//               currentWordIndex++;
-//               setTimeout(typeWords, 300);
-//             },
-//           });
-//         }
-//       };
-
-//       setTimeout(typeWords, 2000);
-
-//       // Stats animation
-//       gsap.fromTo(
-//         '.hero-stats',
-//         { opacity: 0, y: 30 },
-//         {
-//           opacity: 1,
-//           y: 0,
-//           duration: 1,
-//           ease: 'power3.out',
-//           scrollTrigger: {
-//             trigger: '.hero-stats',
-//             start: 'top 80%',
-//             toggleActions: 'play none none reverse',
-//           },
-//         }
-//       );
-//     }, heroRef);
-
-//     return () => ctx.revert();
-//   }, []);
-
-//   const scrollToSection = (sectionId: string) => {
-//     const element = document.getElementById(sectionId);
-//     if (element) {
-//       element.scrollIntoView({ behavior: 'smooth' });
-//     }
-//   };
-
-//   return (
-//     <section
-//       id="home"
-//       ref={heroRef}
-//       className="relative min-h-screen flex items-center justify-center overflow-hidden py-16 sm:py-20 lg:py-0"
-//       data-section="hero"
-//     >
-//       {/* Background gradient overlays */}
-//       <div className="absolute inset-0 pointer-events-none">
-//         <div className="absolute top-0 right-0 w-[400px] sm:w-[500px] lg:w-[600px] h-[400px] sm:h-[500px] lg:h-[600px] bg-jarvis-primary/5 rounded-full blur-3xl" />
-//         <div className="absolute bottom-0 left-0 w-[350px] sm:w-[450px] lg:w-[500px] h-[350px] sm:h-[450px] lg:h-[500px] bg-jarvis-secondary/5 rounded-full blur-3xl" />
-//       </div>
-
-//       {/* Grid pattern overlay */}
-//       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:30px_30px] sm:bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
-
-//       {/* Scan line effect */}
-//       <div className="absolute inset-0 scan-line opacity-10" />
-
-//       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-//         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 xl:gap-20 items-center">
-//           {/* Left Column - Text Content */}
-//           <div ref={textRef} className="text-center lg:text-left space-y-5 sm:space-y-6 lg:space-y-8 order-2 lg:order-1">
-//             {/* Main Title */}
-//             <h1 className="hero-title">
-//               <span className="block text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-orbitron">
-//                 <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary via-jarvis-secondary to-jarvis-accent glitch-text animate-gradient">
-//                   {personalInfo.name}
-//                 </span>
-//               </span>
-//             </h1>
-
-//             {/* Accent Line */}
-//             <div className="w-20 sm:w-24 md:w-32 h-1 sm:h-1.5 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto lg:mx-0 rounded-full shadow-lg shadow-jarvis-primary/50"></div>
-
-//             {/* Subtitle */}
-//             <h2 className="hero-subtitle text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-jarvis-primary font-bold">
-//               <span className="font-exo2 tracking-wide">{personalInfo.title}</span>
-//             </h2>
-
-//             {/* Typing Tagline */}
-//             <p className="hero-tagline tagline-text text-sm sm:text-base md:text-lg lg:text-xl text-jarvis-light leading-relaxed font-exo2 max-w-xl lg:max-w-2xl mx-auto lg:mx-0 px-2 sm:px-0"></p>
-
-//             {/* CTA Buttons */}
-//             <div className="hero-buttons flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4 px-4 sm:px-0">
-//               <button
-//                 onClick={() => scrollToSection('projects')}
-//                 className="group relative px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary text-jarvis-black font-bold text-sm sm:text-base rounded-lg sm:rounded-xl overflow-hidden shadow-lg shadow-jarvis-primary/25 hover:shadow-jarvis-primary/40 transition-all duration-300 hover:scale-105 active:scale-95"
-//               >
-//                 <span className="relative z-10 flex items-center justify-center gap-2">
-//                   View Projects
-//                   <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-//                   </svg>
-//                 </span>
-//                 <div className="absolute inset-0 bg-gradient-to-r from-jarvis-secondary to-jarvis-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-//               </button>
-
-//               <button
-//                 onClick={() => scrollToSection('contact')}
-//                 className="group px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 border-2 border-jarvis-primary text-jarvis-primary font-bold text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-jarvis-primary hover:text-jarvis-black transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-jarvis-primary/10 hover:shadow-jarvis-primary/30"
-//               >
-//                 <span className="flex items-center justify-center gap-2">
-//                   Contact Me
-//                   <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-//                   </svg>
-//                 </span>
-//               </button>
-//             </div>
-
-//             {/* Stats */}
-//             <div className="hero-stats grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 md:gap-6 max-w-xs xs:max-w-sm sm:max-w-md mx-auto lg:mx-0 pt-4 sm:pt-6 lg:pt-8">
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-primary/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-primary to-jarvis-secondary font-orbitron group-hover:scale-110 transition-transform">15+</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Projects</div>
-//               </div>
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-secondary/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-secondary to-jarvis-accent font-orbitron group-hover:scale-110 transition-transform">3+</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Years Exp</div>
-//               </div>
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-accent/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-accent to-jarvis-primary font-orbitron group-hover:scale-110 transition-transform">AI</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Focus</div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Right Column - Profile Image */}
-//           <div ref={profileRef} className="flex justify-center lg:justify-end relative order-1 lg:order-2">
-//             <div className="relative group">
-//               {/* Glowing background effect */}
-//               <div className="absolute -inset-4 sm:-inset-6 bg-gradient-to-r from-jarvis-primary/30 via-jarvis-secondary/20 to-jarvis-accent/30 rounded-full blur-2xl sm:blur-3xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
-
-//               {/* Profile Image Container */}
-//               <div className="relative w-40 h-40 xs:w-48 xs:h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden holographic-border shadow-2xl">
-//                 {/* Animated gradient border */}
-//                 <div className="absolute -inset-0.5 sm:-inset-1 bg-gradient-to-r from-jarvis-primary via-jarvis-secondary to-jarvis-accent rounded-full opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-gradient"></div>
-
-//                 {/* Inner container */}
-//                 <div className="relative w-full h-full rounded-full overflow-hidden border-2 sm:border-4 border-jarvis-black">
-//                   <img
-//                     src={personalInfo.profileImage}
-//                     alt={personalInfo.name}
-//                     className="w-full h-full object-cover profile-image transform group-hover:scale-110 transition-transform duration-500"
-//                     loading="eager"
-//                   />
-
-//                   {/* Gradient overlay */}
-//                   <div className="absolute inset-0 bg-gradient-to-t from-jarvis-black/60 via-transparent to-transparent" />
-
-//                   {/* Bottom label */}
-//                   <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 left-0 right-0 text-center backdrop-blur-sm bg-jarvis-black/30 py-1 sm:py-2 border-t border-jarvis-primary/30">
-//                     <div className="text-xs sm:text-sm text-jarvis-primary font-mono font-bold tracking-wider">SDET/SDE</div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Scroll Indicator */}
-//       <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-//         <button
-//           onClick={() => scrollToSection('about')}
-//           className="flex flex-col items-center group cursor-pointer"
-//         >
-//           <div className="text-xs text-jarvis-light font-mono mb-2 sm:mb-3 tracking-widest group-hover:text-jarvis-primary transition-colors">SCROLL</div>
-//           <div className="w-5 h-9 sm:w-6 sm:h-10 md:w-7 md:h-12 border-2 border-jarvis-primary/50 rounded-full flex justify-center p-1.5 sm:p-2 group-hover:border-jarvis-primary transition-colors shadow-lg shadow-jarvis-primary/20">
-//             <div className="w-1 h-2 sm:w-1.5 sm:h-3 bg-jarvis-primary rounded-full animate-bounce shadow-lg shadow-jarvis-primary/50" />
-//           </div>
-//         </button>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Hero;
-
-// import React, { useEffect, useRef } from 'react';
-// import { gsap } from 'gsap';
-// import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// import { TextPlugin } from 'gsap/TextPlugin';
-// import { personalInfo } from '../data/portfolioData';
-
-// gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
-// const Hero: React.FC = () => {
-//   const heroRef = useRef<HTMLDivElement>(null);
-//   const textRef = useRef<HTMLDivElement>(null);
-//   const profileRef = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     const ctx = gsap.context(() => {
-//       // Animate title, subtitle, and buttons
-//       const tl = gsap.timeline({ delay: 0.5 });
-
-//       gsap.set(['.hero-title', '.hero-subtitle', '.hero-tagline', '.hero-buttons'], {
-//         opacity: 0,
-//         y: 50,
-//       });
-
-//       tl.to('.hero-title', {
-//         opacity: 1,
-//         y: 0,
-//         duration: 1.2,
-//         ease: 'power3.out',
-//       })
-//         .to(
-//           '.hero-subtitle',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 1,
-//             ease: 'power3.out',
-//           },
-//           '-=0.8'
-//         )
-//         .to(
-//           '.hero-tagline',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 0.8,
-//             ease: 'power3.out',
-//           },
-//           '-=0.6'
-//         )
-//         .to(
-//           '.hero-buttons',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 0.8,
-//             ease: 'power3.out',
-//           },
-//           '-=0.5'
-//         );
-
-//       // Floating profile image animation
-//       gsap.to('.profile-image', {
-//         y: -15,
-//         duration: 3,
-//         ease: 'sine.inOut',
-//         repeat: -1,
-//         yoyo: true,
-//       });
-
-//       // Typing effect for tagline
-//       const words = personalInfo.tagline.split(' ');
-//       let currentWordIndex = 0;
-
-//       const typeWords = () => {
-//         if (currentWordIndex < words.length) {
-//           const currentText = words.slice(0, currentWordIndex + 1).join(' ');
-//           gsap.to('.tagline-text', {
-//             text: currentText,
-//             duration: 0.5,
-//             ease: 'none',
-//             onComplete: () => {
-//               currentWordIndex++;
-//               setTimeout(typeWords, 300);
-//             },
-//           });
-//         }
-//       };
-
-//       setTimeout(typeWords, 2000);
-
-//       // Stats animation
-//       gsap.fromTo(
-//         '.hero-stats',
-//         { opacity: 0, y: 30 },
-//         {
-//           opacity: 1,
-//           y: 0,
-//           duration: 1,
-//           ease: 'power3.out',
-//           scrollTrigger: {
-//             trigger: '.hero-stats',
-//             start: 'top 80%',
-//             toggleActions: 'play none none reverse',
-//           },
-//         }
-//       );
-//     }, heroRef);
-
-//     return () => ctx.revert();
-//   }, []);
-
-//   const scrollToSection = (sectionId: string) => {
-//     const element = document.getElementById(sectionId);
-//     if (element) {
-//       element.scrollIntoView({ behavior: 'smooth' });
-//     }
-//   };
-
-//   return (
-//     <section
-//       id="home"
-//       ref={heroRef}
-//       className="relative min-h-screen flex items-center justify-center overflow-hidden py-16 sm:py-20 lg:py-0"
-//       data-section="hero"
-//     >
-//       {/* Parallax Background Layers */}
-//       <div className="absolute inset-0 pointer-events-none">
-//         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_bottom,#0a192f_1px,transparent_1px),linear-gradient(to_right,#0a192f_1px,transparent_1px)] bg-[size:30px_30px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
-//         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-jarvis-primary/5 rounded-full blur-3xl transform translate-y-1/4 translate-x-1/4" />
-//         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-jarvis-secondary/5 rounded-full blur-3xl transform -translate-y-1/4 -translate-x-1/4" />
-//       </div>
-
-//       {/* Floating Particles */}
-//       {/* <div className="absolute inset-0 pointer-events-none">
-//         {[...Array(10)].map((_, i) => (
-//           <div
-//             key={i}
-//             className="absolute w-2 h-2 sm:w-3 sm:h-3 bg-jarvis-primary/50 rounded-full animate-float"
-//             style={{
-//               top: `${Math.random() * 100}%`,
-//               left: `${Math.random() * 100}%`,
-//               animationDuration: `${Math.random() * 5 + 5}s`,
-//               animationDelay: `${Math.random() * 5}s`,
-//             }}
-//           ></div>
-//         ))}
-//       </div> */}
-
-//       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-//         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 xl:gap-20 items-center">
-//           {/* Left Column - Text Content */}
-//           <div ref={textRef} className="text-center lg:text-left space-y-5 sm:space-y-6 lg:space-y-8 order-2 lg:order-1">
-//             {/* Main Title */}
-//             <h1 className="hero-title">
-//               <span className="block text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-orbitron">
-//                 <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary via-jarvis-secondary to-jarvis-accent glitch-text animate-gradient">
-//                   {personalInfo.name}
-//                 </span>
-//               </span>
-//             </h1>
-
-//             {/* Accent Line */}
-//             <div className="w-20 sm:w-24 md:w-32 h-1 sm:h-1.5 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto lg:mx-0 rounded-full shadow-lg shadow-jarvis-primary/50"></div>
-
-//             {/* Subtitle */}
-//             <h2 className="hero-subtitle text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-jarvis-primary font-bold">
-//               <span className="font-exo2 tracking-wide">{personalInfo.title}</span>
-//             </h2>
-
-//             {/* Typing Tagline */}
-//             <p className="hero-tagline tagline-text text-sm sm:text-base md:text-lg lg:text-xl text-jarvis-light leading-relaxed font-exo2 max-w-xl lg:max-w-2xl mx-auto lg:mx-0 px-2 sm:px-0"></p>
-
-//             {/* CTA Buttons */}
-//             <div className="hero-buttons flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4 px-4 sm:px-0">
-//               <button
-//                 onClick={() => scrollToSection('projects')}
-//                 className="group relative px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary text-jarvis-black font-bold text-sm sm:text-base rounded-lg sm:rounded-xl overflow-hidden shadow-lg shadow-jarvis-primary/25 hover:shadow-jarvis-primary/40 transition-all duration-300 hover:scale-105 active:scale-95"
-//               >
-//                 <span className="relative z-10 flex items-center justify-center gap-2">
-//                   View Projects
-//                   <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-//                   </svg>
-//                 </span>
-//                 <div className="absolute inset-0 bg-gradient-to-r from-jarvis-secondary to-jarvis-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-//               </button>
-
-//               <button
-//                 onClick={() => scrollToSection('contact')}
-//                 className="group px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 border-2 border-jarvis-primary text-jarvis-primary font-bold text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-jarvis-primary hover:text-jarvis-black transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-jarvis-primary/10 hover:shadow-jarvis-primary/30"
-//               >
-//                 <span className="flex items-center justify-center gap-2">
-//                   Contact Me
-//                   <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-//                   </svg>
-//                 </span>
-//               </button>
-//             </div>
-
-//             {/* Stats */}
-//             <div className="hero-stats grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 md:gap-6 max-w-xs xs:max-w-sm sm:max-w-md mx-auto lg:mx-0 pt-4 sm:pt-6 lg:pt-8">
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-primary/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-primary to-jarvis-secondary font-orbitron group-hover:scale-110 transition-transform">15+</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Projects</div>
-//               </div>
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-secondary/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-secondary to-jarvis-accent font-orbitron group-hover:scale-110 transition-transform">3+</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Years Exp</div>
-//               </div>
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-accent/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-accent to-jarvis-primary font-orbitron group-hover:scale-110 transition-transform">AI</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Focus</div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Right Column - Profile Image */}
-//           <div ref={profileRef} className="flex justify-center lg:justify-end relative order-1 lg:order-2">
-//             <div className="relative group">
-//               {/* Glowing background effect */}
-//               <div className="absolute -inset-4 sm:-inset-6 bg-gradient-to-r from-jarvis-primary/30 via-jarvis-secondary/20 to-jarvis-accent/30 rounded-full blur-2xl sm:blur-3xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
-
-//               {/* Profile Image Container */}
-//               <div className="relative w-40 h-40 xs:w-48 xs:h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden holographic-border shadow-2xl">
-//                 {/* Animated gradient border */}
-//                 <div className="absolute -inset-0.5 sm:-inset-1 bg-gradient-to-r from-jarvis-primary via-jarvis-secondary to-jarvis-accent rounded-full opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-gradient"></div>
-
-//                 {/* Inner container */}
-//                 <div className="relative w-full h-full rounded-full overflow-hidden border-2 sm:border-4 border-jarvis-black">
-//                   <img
-//                     src={personalInfo.profileImage}
-//                     alt={personalInfo.name}
-//                     className="w-full h-full object-cover profile-image transform group-hover:scale-110 transition-transform duration-500"
-//                     loading="eager"
-//                   />
-
-//                   {/* Gradient overlay */}
-//                   <div className="absolute inset-0 bg-gradient-to-t from-jarvis-black/60 via-transparent to-transparent" />
-
-//                   {/* Bottom label */}
-//                   <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 left-0 right-0 text-center backdrop-blur-sm bg-jarvis-black/30 py-1 sm:py-2 border-t border-jarvis-primary/30">
-//                     <div className="text-xs sm:text-sm text-jarvis-primary font-mono font-bold tracking-wider">SDET/SDE</div>
-//                   </div>
-//                 </div>
-//               </div>
-
-//               {/* Dynamic Light Rays */}
-//               <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-80 h-80 sm:w-96 sm:h-96 bg-jarvis-primary/10 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-500"></div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Scroll Indicator */}
-//       <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-//         <button
-//           onClick={() => scrollToSection('about')}
-//           className="flex flex-col items-center group cursor-pointer"
-//         >
-//           <div className="text-xs text-jarvis-light font-mono mb-2 sm:mb-3 tracking-widest group-hover:text-jarvis-primary transition-colors">SCROLL</div>
-//           <div className="w-5 h-9 sm:w-6 sm:h-10 md:w-7 md:h-12 border-2 border-jarvis-primary/50 rounded-full flex justify-center p-1.5 sm:p-2 group-hover:border-jarvis-primary transition-colors shadow-lg shadow-jarvis-primary/20">
-//             <div className="w-1 h-2 sm:w-1.5 sm:h-3 bg-jarvis-primary rounded-full animate-bounce shadow-lg shadow-jarvis-primary/50" />
-//           </div>
-//         </button>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Hero;
-
-// import React, { useEffect, useRef } from 'react';
-// import { gsap } from 'gsap';
-// import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// import { TextPlugin } from 'gsap/TextPlugin';
-// import { personalInfo } from '../data/portfolioData';
-
-// gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
-// const Hero: React.FC = () => {
-//   const heroRef = useRef<HTMLDivElement>(null);
-//   const textRef = useRef<HTMLDivElement>(null);
-//   const profileRef = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     const ctx = gsap.context(() => {
-//       // Animate title, subtitle, and buttons
-//       const tl = gsap.timeline({ delay: 0.5 });
-
-//       gsap.set(['.hero-title', '.hero-subtitle', '.hero-tagline', '.hero-buttons'], {
-//         opacity: 0,
-//         y: 50,
-//       });
-
-//       tl.to('.hero-title', {
-//         opacity: 1,
-//         y: 0,
-//         duration: 1.2,
-//         ease: 'power3.out',
-//       })
-//         .to(
-//           '.hero-subtitle',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 1,
-//             ease: 'power3.out',
-//           },
-//           '-=0.8'
-//         )
-//         .to(
-//           '.hero-tagline',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 0.8,
-//             ease: 'power3.out',
-//           },
-//           '-=0.6'
-//         )
-//         .to(
-//           '.hero-buttons',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 0.8,
-//             ease: 'power3.out',
-//           },
-//           '-=0.5'
-//         );
-
-//       // Floating profile image animation
-//       gsap.to('.profile-image', {
-//         y: -15,
-//         duration: 3,
-//         ease: 'sine.inOut',
-//         repeat: -1,
-//         yoyo: true,
-//       });
-
-//       // Typing effect for tagline
-//       const words = personalInfo.tagline.split(' ');
-//       let currentWordIndex = 0;
-
-//       const typeWords = () => {
-//         if (currentWordIndex < words.length) {
-//           const currentText = words.slice(0, currentWordIndex + 1).join(' ');
-//           gsap.to('.tagline-text', {
-//             text: currentText,
-//             duration: 0.5,
-//             ease: 'none',
-//             onComplete: () => {
-//               currentWordIndex++;
-//               setTimeout(typeWords, 300);
-//             },
-//           });
-//         }
-//       };
-
-//       setTimeout(typeWords, 2000);
-
-//       // Stats animation
-//       gsap.fromTo(
-//         '.hero-stats',
-//         { opacity: 0, y: 30 },
-//         {
-//           opacity: 1,
-//           y: 0,
-//           duration: 1,
-//           ease: 'power3.out',
-//           scrollTrigger: {
-//             trigger: '.hero-stats',
-//             start: 'top 80%',
-//             toggleActions: 'play none none reverse',
-//           },
-//         }
-//       );
-//     }, heroRef);
-
-//     return () => ctx.revert();
-//   }, []);
-
-//   const scrollToSection = (sectionId: string) => {
-//     const element = document.getElementById(sectionId);
-//     if (element) {
-//       element.scrollIntoView({ behavior: 'smooth' });
-//     }
-//   };
-
-//   return (
-//     <section
-//       id="home"
-//       ref={heroRef}
-//       className="relative min-h-screen flex items-center justify-center overflow-hidden py-16 sm:py-20 lg:py-0"
-//       data-section="hero"
-//     >
-//       {/* Parallax Background Layers */}
-//       <div className="absolute inset-0 pointer-events-none">
-//         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_bottom,#0a192f_1px,transparent_1px),linear-gradient(to_right,#0a192f_1px,transparent_1px)] bg-[size:30px_30px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
-//         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-jarvis-primary/5 rounded-full blur-3xl transform translate-y-1/4 translate-x-1/4" />
-//         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-jarvis-secondary/5 rounded-full blur-3xl transform -translate-y-1/4 -translate-x-1/4" />
-//       </div>
-
-//       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-//         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 xl:gap-20 items-center">
-//           {/* Left Column - Text Content */}
-//           <div ref={textRef} className="text-center lg:text-left space-y-5 sm:space-y-6 lg:space-y-8 order-2 lg:order-1">
-//             {/* Main Title */}
-//             <h1 className="hero-title">
-//               <span className="block text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-orbitron">
-//                 <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary via-jarvis-secondary to-jarvis-accent glitch-text animate-gradient">
-//                   {personalInfo.name}
-//                 </span>
-//               </span>
-//             </h1>
-
-//             {/* Accent Line */}
-//             <div className="w-20 sm:w-24 md:w-32 h-1 sm:h-1.5 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto lg:mx-0 rounded-full shadow-lg shadow-jarvis-primary/50"></div>
-
-//             {/* Subtitle */}
-//             <h2 className="hero-subtitle text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-jarvis-primary font-bold">
-//               <span className="font-exo2 tracking-wide">{personalInfo.title}</span>
-//             </h2>
-
-//             {/* Typing Tagline */}
-//             <p className="hero-tagline tagline-text text-sm sm:text-base md:text-lg lg:text-xl text-jarvis-light leading-relaxed font-exo2 max-w-xl lg:max-w-2xl mx-auto lg:mx-0 px-2 sm:px-0"></p>
-
-//             {/* CTA Buttons */}
-//             <div className="hero-buttons flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4 px-4 sm:px-0">
-//               <button
-//                 onClick={() => scrollToSection('projects')}
-//                 className="group relative px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary text-jarvis-black font-bold text-sm sm:text-base rounded-lg sm:rounded-xl overflow-hidden shadow-lg shadow-jarvis-primary/25 hover:shadow-jarvis-primary/40 transition-all duration-300 hover:scale-105 active:scale-95"
-//               >
-//                 <span className="relative z-10 flex items-center justify-center gap-2">
-//                   View Projects
-//                   <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-//                   </svg>
-//                 </span>
-//                 <div className="absolute inset-0 bg-gradient-to-r from-jarvis-secondary to-jarvis-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-//               </button>
-
-//               <button
-//                 onClick={() => scrollToSection('contact')}
-//                 className="group px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 border-2 border-jarvis-primary text-jarvis-primary font-bold text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-jarvis-primary hover:text-jarvis-black transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-jarvis-primary/10 hover:shadow-jarvis-primary/30"
-//               >
-//                 <span className="flex items-center justify-center gap-2">
-//                   Contact Me
-//                   <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-//                   </svg>
-//                 </span>
-//               </button>
-//             </div>
-
-//             {/* Stats */}
-//             <div className="hero-stats grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 md:gap-6 max-w-xs xs:max-w-sm sm:max-w-md mx-auto lg:mx-0 pt-4 sm:pt-6 lg:pt-8">
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-primary/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-primary to-jarvis-secondary font-orbitron group-hover:scale-110 transition-transform">15+</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Projects</div>
-//               </div>
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-secondary/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-secondary to-jarvis-accent font-orbitron group-hover:scale-110 transition-transform">3+</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Years Exp</div>
-//               </div>
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-accent/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-accent to-jarvis-primary font-orbitron group-hover:scale-110 transition-transform">AI</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Focus</div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Right Column - Profile Image with Arc Reactor */}
-//           <div ref={profileRef} className="flex justify-center lg:justify-end relative order-1 lg:order-2">
-//             <div className="relative group">
-//               {/* Arc Reactor Ring Behind Profile */}
-//               <div className="absolute -inset-6 sm:-inset-8 md:-inset-10 lg:-inset-12 rounded-full overflow-hidden">
-//                 {/* Outer Glow Ring */}
-//                 <div className="absolute inset-0 bg-gradient-to-r from-jarvis-primary/20 via-jarvis-secondary/20 to-jarvis-accent/20 rounded-full blur-xl opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
-
-//                 {/* Inner Concentric Rings */}
-//                 <div className="absolute inset-0 rounded-full border-2 sm:border-4 md:border-6 border-jarvis-primary/50"></div>
-//                 <div className="absolute inset-2 sm:inset-4 md:inset-6 rounded-full border-2 sm:border-4 md:border-6 border-jarvis-secondary/50"></div>
-//                 <div className="absolute inset-4 sm:inset-6 md:inset-8 rounded-full border-2 sm:border-4 md:border-6 border-jarvis-accent/50"></div>
-
-//                 {/* Pulsing Core */}
-//                 <div className="absolute inset-6 sm:inset-8 md:inset-10 rounded-full bg-jarvis-primary/30 animate-pulse"></div>
-
-//                 {/* Spinning Inner Ring (Optional) */}
-//                 <div className="absolute inset-8 sm:inset-10 md:inset-12 rounded-full border-2 sm:border-4 md:border-6 border-jarvis-primary/70 animate-spin-slow"></div>
-//               </div>
-
-//               {/* Profile Image Container */}
-//               <div className="relative w-40 h-40 xs:w-48 xs:h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden holographic-border shadow-2xl">
-//                 {/* Animated gradient border */}
-//                 <div className="absolute -inset-0.5 sm:-inset-1 bg-gradient-to-r from-jarvis-primary via-jarvis-secondary to-jarvis-accent rounded-full opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-gradient"></div>
-
-//                 {/* Inner container */}
-//                 <div className="relative w-full h-full rounded-full overflow-hidden border-2 sm:border-4 border-jarvis-black">
-//                   <img
-//                     src={personalInfo.profileImage}
-//                     alt={personalInfo.name}
-//                     className="w-full h-full object-cover profile-image transform group-hover:scale-110 transition-transform duration-500"
-//                     loading="eager"
-//                   />
-
-//                   {/* Gradient overlay */}
-//                   <div className="absolute inset-0 bg-gradient-to-t from-jarvis-black/60 via-transparent to-transparent" />
-
-//                   {/* Bottom label */}
-//                   <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 left-0 right-0 text-center backdrop-blur-sm bg-jarvis-black/30 py-1 sm:py-2 border-t border-jarvis-primary/30">
-//                     <div className="text-xs sm:text-sm text-jarvis-primary font-mono font-bold tracking-wider">SDET/SDE</div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Scroll Indicator */}
-//       <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-//         <button
-//           onClick={() => scrollToSection('about')}
-//           className="flex flex-col items-center group cursor-pointer"
-//         >
-//           <div className="text-xs text-jarvis-light font-mono mb-2 sm:mb-3 tracking-widest group-hover:text-jarvis-primary transition-colors">SCROLL</div>
-//           <div className="w-5 h-9 sm:w-6 sm:h-10 md:w-7 md:h-12 border-2 border-jarvis-primary/50 rounded-full flex justify-center p-1.5 sm:p-2 group-hover:border-jarvis-primary transition-colors shadow-lg shadow-jarvis-primary/20">
-//             <div className="w-1 h-2 sm:w-1.5 sm:h-3 bg-jarvis-primary rounded-full animate-bounce shadow-lg shadow-jarvis-primary/50" />
-//           </div>
-//         </button>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Hero;
-
-// import React, { useEffect, useRef } from 'react';
-// import { gsap } from 'gsap';
-// import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// import { TextPlugin } from 'gsap/TextPlugin';
-// import { personalInfo } from '../data/portfolioData';
-
-// gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
-// const Hero: React.FC = () => {
-//   const heroRef = useRef<HTMLDivElement>(null);
-//   const textRef = useRef<HTMLDivElement>(null);
-//   const profileRef = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     const ctx = gsap.context(() => {
-//       // Animate title, subtitle, and buttons
-//       const tl = gsap.timeline({ delay: 0.5 });
-
-//       gsap.set(['.hero-title', '.hero-subtitle', '.hero-tagline', '.hero-buttons'], {
-//         opacity: 0,
-//         y: 50,
-//       });
-
-//       tl.to('.hero-title', {
-//         opacity: 1,
-//         y: 0,
-//         duration: 1.2,
-//         ease: 'power3.out',
-//       })
-//         .to(
-//           '.hero-subtitle',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 1,
-//             ease: 'power3.out',
-//           },
-//           '-=0.8'
-//         )
-//         .to(
-//           '.hero-tagline',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 0.8,
-//             ease: 'power3.out',
-//           },
-//           '-=0.6'
-//         )
-//         .to(
-//           '.hero-buttons',
-//           {
-//             opacity: 1,
-//             y: 0,
-//             duration: 0.8,
-//             ease: 'power3.out',
-//           },
-//           '-=0.5'
-//         );
-
-//       // Floating profile image animation
-//       gsap.to('.profile-image', {
-//         y: -15,
-//         duration: 3,
-//         ease: 'sine.inOut',
-//         repeat: -1,
-//         yoyo: true,
-//       });
-
-//       // Typing effect for tagline
-//       const words = personalInfo.tagline.split(' ');
-//       let currentWordIndex = 0;
-
-//       const typeWords = () => {
-//         if (currentWordIndex < words.length) {
-//           const currentText = words.slice(0, currentWordIndex + 1).join(' ');
-//           gsap.to('.tagline-text', {
-//             text: currentText,
-//             duration: 0.5,
-//             ease: 'none',
-//             onComplete: () => {
-//               currentWordIndex++;
-//               setTimeout(typeWords, 300);
-//             },
-//           });
-//         }
-//       };
-
-//       setTimeout(typeWords, 2000);
-
-//       // Stats animation
-//       gsap.fromTo(
-//         '.hero-stats',
-//         { opacity: 0, y: 30 },
-//         {
-//           opacity: 1,
-//           y: 0,
-//           duration: 1,
-//           ease: 'power3.out',
-//           scrollTrigger: {
-//             trigger: '.hero-stats',
-//             start: 'top 80%',
-//             toggleActions: 'play none none reverse',
-//           },
-//         }
-//       );
-//     }, heroRef);
-
-//     return () => ctx.revert();
-//   }, []);
-
-//   const scrollToSection = (sectionId: string) => {
-//     const element = document.getElementById(sectionId);
-//     if (element) {
-//       element.scrollIntoView({ behavior: 'smooth' });
-//     }
-//   };
-
-//   return (
-//     <section
-//       id="home"
-//       ref={heroRef}
-//       className="relative min-h-screen flex items-center justify-center overflow-hidden py-16 sm:py-20 lg:py-0"
-//       data-section="hero"
-//     >
-//       {/* Parallax Background Layers */}
-//       <div className="absolute inset-0 pointer-events-none">
-//         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_bottom,#0a192f_1px,transparent_1px),linear-gradient(to_right,#0a192f_1px,transparent_1px)] bg-[size:30px_30px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
-//         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-jarvis-primary/5 rounded-full blur-3xl transform translate-y-1/4 translate-x-1/4" />
-//         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-jarvis-secondary/5 rounded-full blur-3xl transform -translate-y-1/4 -translate-x-1/4" />
-//       </div>
-
-//       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-//         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 xl:gap-20 items-center">
-//           {/* Left Column - Text Content */}
-//           <div ref={textRef} className="text-center lg:text-left space-y-5 sm:space-y-6 lg:space-y-8 order-2 lg:order-1">
-//             {/* Main Title */}
-//             <h1 className="hero-title">
-//               <span className="block text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-orbitron">
-//                 <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary via-jarvis-secondary to-jarvis-accent glitch-text animate-gradient">
-//                   {personalInfo.name}
-//                 </span>
-//               </span>
-//             </h1>
-
-//             {/* Accent Line */}
-//             <div className="w-20 sm:w-24 md:w-32 h-1 sm:h-1.5 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto lg:mx-0 rounded-full shadow-lg shadow-jarvis-primary/50"></div>
-
-//             {/* Subtitle */}
-//             <h2 className="hero-subtitle text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-jarvis-primary font-bold">
-//               <span className="font-exo2 tracking-wide">{personalInfo.title}</span>
-//             </h2>
-
-//             {/* Typing Tagline */}
-//             <p className="hero-tagline tagline-text text-sm sm:text-base md:text-lg lg:text-xl text-jarvis-light leading-relaxed font-exo2 max-w-xl lg:max-w-2xl mx-auto lg:mx-0 px-2 sm:px-0"></p>
-
-//             {/* CTA Buttons */}
-//             <div className="hero-buttons flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4 px-4 sm:px-0">
-//               <button
-//                 onClick={() => scrollToSection('projects')}
-//                 className="group relative px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary text-jarvis-black font-bold text-sm sm:text-base rounded-lg sm:rounded-xl overflow-hidden shadow-lg shadow-jarvis-primary/25 hover:shadow-jarvis-primary/40 transition-all duration-300 hover:scale-105 active:scale-95"
-//               >
-//                 <span className="relative z-10 flex items-center justify-center gap-2">
-//                   View Projects
-//                   <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-//                   </svg>
-//                 </span>
-//                 <div className="absolute inset-0 bg-gradient-to-r from-jarvis-secondary to-jarvis-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-//               </button>
-
-//               <button
-//                 onClick={() => scrollToSection('contact')}
-//                 className="group px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 border-2 border-jarvis-primary text-jarvis-primary font-bold text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-jarvis-primary hover:text-jarvis-black transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-jarvis-primary/10 hover:shadow-jarvis-primary/30"
-//               >
-//                 <span className="flex items-center justify-center gap-2">
-//                   Contact Me
-//                   <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-//                   </svg>
-//                 </span>
-//               </button>
-//             </div>
-
-//             {/* Stats */}
-//             <div className="hero-stats grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 md:gap-6 max-w-xs xs:max-w-sm sm:max-w-md mx-auto lg:mx-0 pt-4 sm:pt-6 lg:pt-8">
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-primary/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-primary to-jarvis-secondary font-orbitron group-hover:scale-110 transition-transform">15+</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Projects</div>
-//               </div>
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-secondary/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-secondary to-jarvis-accent font-orbitron group-hover:scale-110 transition-transform">3+</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Years Exp</div>
-//               </div>
-//               <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-accent/20 transition-all duration-300">
-//                 <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-accent to-jarvis-primary font-orbitron group-hover:scale-110 transition-transform">AI</div>
-//                 <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Focus</div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Right Column - Profile Image with Single Glowing Cyan Ring */}
-//           <div ref={profileRef} className="flex justify-center lg:justify-end relative order-1 lg:order-2">
-//             <div className="relative group">
-//               {/* Single Glowing Cyan Ring (Inspired by your reference image) */}
-//               <div className="absolute -inset-6 sm:-inset-8 md:-inset-10 lg:-inset-12 rounded-full overflow-hidden">
-//                 {/* Outer Glow Ring */}
-//                 <div className="absolute inset-0 bg-gradient-to-r from-jarvis-primary/20 via-jarvis-secondary/20 to-jarvis-accent/20 rounded-full blur-xl opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
-
-//                 {/* Single Thick Cyan Ring */}
-//                 <div className="absolute inset-0 rounded-full border-4 sm:border-6 md:border-8 border-jarvis-secondary/80 animate-spin-slow"></div>
-
-//                 {/* Inner Pulsing Core */}
-//                 <div className="absolute inset-8 sm:inset-10 md:inset-12 rounded-full bg-jarvis-primary/30 animate-pulse"></div>
-//               </div>
-
-//               {/* Profile Image Container */}
-//               <div className="relative w-40 h-40 xs:w-48 xs:h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden holographic-border shadow-2xl">
-//                 {/* Animated gradient border */}
-//                 <div className="absolute -inset-0.5 sm:-inset-1 bg-gradient-to-r from-jarvis-primary via-jarvis-secondary to-jarvis-accent rounded-full opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-gradient"></div>
-
-//                 {/* Inner container */}
-//                 <div className="relative w-full h-full rounded-full overflow-hidden border-2 sm:border-4 border-jarvis-black">
-//                   <img
-//                     src={personalInfo.profileImage}
-//                     alt={personalInfo.name}
-//                     className="w-full h-full object-cover profile-image transform group-hover:scale-110 transition-transform duration-500"
-//                     loading="eager"
-//                   />
-
-//                   {/* Gradient overlay */}
-//                   <div className="absolute inset-0 bg-gradient-to-t from-jarvis-black/60 via-transparent to-transparent" />
-
-//                   {/* Bottom label */}
-//                   <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 left-0 right-0 text-center backdrop-blur-sm bg-jarvis-black/30 py-1 sm:py-2 border-t border-jarvis-primary/30">
-//                     <div className="text-xs sm:text-sm text-jarvis-primary font-mono font-bold tracking-wider">SDET/SDE</div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Scroll Indicator */}
-//       <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-//         <button
-//           onClick={() => scrollToSection('about')}
-//           className="flex flex-col items-center group cursor-pointer"
-//         >
-//           <div className="text-xs text-jarvis-light font-mono mb-2 sm:mb-3 tracking-widest group-hover:text-jarvis-primary transition-colors">SCROLL</div>
-//           <div className="w-5 h-9 sm:w-6 sm:h-10 md:w-7 md:h-12 border-2 border-jarvis-primary/50 rounded-full flex justify-center p-1.5 sm:p-2 group-hover:border-jarvis-primary transition-colors shadow-lg shadow-jarvis-primary/20">
-//             <div className="w-1 h-2 sm:w-1.5 sm:h-3 bg-jarvis-primary rounded-full animate-bounce shadow-lg shadow-jarvis-primary/50" />
-//           </div>
-//         </button>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Hero;
-
-
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, useCallback, ReactNode } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
 import { personalInfo } from '../data/portfolioData';
 
-gsap.registerPlugin(ScrollTrigger, TextPlugin);
+gsap.registerPlugin(TextPlugin);
 
+/* ──────────────────────────────────────────────────────────────
+   Types & Assertions
+   ────────────────────────────────────────────────────────────── */
+type Assertion = {
+  id: string;
+  label: string;
+  detail: string;
+};
+
+const assertions: Assertion[] = [
+  { id: 'identity', label: 'sys.identity.verify', detail: `TARGET: "${personalInfo.name}"` },
+  { id: 'role', label: 'auth.role.assign', detail: `ROLE_VERIFIED: "${personalInfo.title}"` },
+  { id: 'graphrag', label: 'agentic_rag.oracle', detail: 'GraphRAG tests deployed' },
+  { id: 'llm_eval', label: 'llm_eval.benchmark', detail: 'LLM Quality gates active' },
+];
+
+/* ──────────────────────────────────────────────────────────────
+   Custom Hook: Cryptographic Text Scramble
+   ────────────────────────────────────────────────────────────── */
+const useDecryptionEffect = (text: string, trigger: boolean, speed = 25) => {
+  const [displayText, setDisplayText] = useState('');
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*<>';
+  
+  useEffect(() => {
+    if (!trigger) return;
+    let iteration = 0;
+    let interval: NodeJS.Timeout;
+    
+    interval = setInterval(() => {
+      setDisplayText(text.split('').map((char, index) => {
+        if (index < iteration || char === ' ') return text[index];
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join(''));
+      
+      if (iteration >= text.length) clearInterval(interval);
+      iteration += 1 / 3;
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, trigger, speed]);
+
+  return displayText;
+};
+
+/* ──────────────────────────────────────────────────────────────
+   Component
+   ────────────────────────────────────────────────────────────── */
 const Hero: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const profileRef = useRef<HTMLDivElement>(null);
+  const terminalBodyRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  // States
+  const [isInteractive, setIsInteractive] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [commandHistory, setCommandHistory] = useState<{ command: string; output: ReactNode }[]>([]);
+  const [startDecryption, setStartDecryption] = useState(false);
+
+  // Strict Reset on Mount (Fixes Hot-Reload Persistence Issue)
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate title, subtitle, and buttons
-      const tl = gsap.timeline({ delay: 0.5 });
+    setCommandHistory([]);
+    setInputValue('');
+  }, []);
 
-      gsap.set(['.hero-title', '.hero-subtitle', '.hero-tagline', '.hero-buttons'], {
-        opacity: 0,
-        y: 50,
-      });
+  const taglineDecrypted = useDecryptionEffect(personalInfo.tagline, startDecryption, 15);
 
-      tl.to('.hero-title', {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: 'power3.out',
-      })
-        .to(
-          '.hero-subtitle',
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: 'power3.out',
-          },
-          '-=0.8'
-        )
-        .to(
-          '.hero-tagline',
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-          },
-          '-=0.6'
-        )
-        .to(
-          '.hero-buttons',
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-          },
-          '-=0.5'
+  const scrollToSection = useCallback((id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
+  /* ──────────────────────────────────────────────────────────
+     Upgraded Terminal Command Engine
+     ────────────────────────────────────────────────────────── */
+  const handleCommand = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cmd = inputValue.trim().toLowerCase();
+    if (!cmd) return;
+
+    let output: ReactNode = '';
+
+    switch (cmd) {
+      case 'help':
+        output = (
+          <div className="text-[#94A3B8] space-y-1 mt-2">
+            <p className="text-[#5EEAD4] font-bold tracking-widest mb-2">[ AVAILABLE_PROTOCOLS ]</p>
+            <div className="grid grid-cols-[100px_1fr] gap-2">
+              <span className="text-[#F59E0B] font-bold">whoami</span><span>Display operator dossier</span>
+              <span className="text-[#F59E0B] font-bold">skills</span><span>Print system capabilities</span>
+              <span className="text-[#F59E0B] font-bold">projects</span><span>Navigate to automated pipelines</span>
+              <span className="text-[#F59E0B] font-bold">resources</span><span>Access external directories & resume</span>
+              <span className="text-[#F59E0B] font-bold">contact</span><span>Establish secure comms link</span>
+              <span className="text-[#F59E0B] font-bold">clear</span><span>Flush terminal memory</span>
+            </div>
+          </div>
         );
+        break;
+      
+      case 'whoami':
+        output = (
+          <div className="mt-2 p-3 border border-[#1E293B] bg-[#05070A]">
+            <div className="text-[#5EEAD4] tracking-widest uppercase mb-3">{'>'} DECRYPTING_OPERATOR_DOSSIER...</div>
+            <div className="grid grid-cols-[120px_1fr] gap-y-1 text-[#94A3B8] uppercase tracking-wide text-[12px]">
+              <span className="text-[#475569]">DESIGNATION:</span><span className="text-[#EDECE7]">{personalInfo.name}</span>
+              <span className="text-[#475569]">PRIMARY_ROLE:</span><span>{personalInfo.title}</span>
+              <span className="text-[#475569]">BASE_LOC:</span><span>{personalInfo.location || "CLASSIFIED"}</span>
+              <span className="text-[#475569]">STATUS:</span><span className="text-[#10B981] font-bold">ACTIVE_OPERATOR</span>
+              <span className="text-[#475569]">CLEARANCE:</span><span className="text-[#F59E0B]">LEVEL_4 (SDET/AI)</span>
+            </div>
+          </div>
+        );
+        break;
+      
+      case 'resources':
+        output = (
+          <div className="mt-2 p-3 border border-[#1E293B] bg-[#05070A]">
+            <div className="text-[#F59E0B] tracking-widest uppercase mb-2">{'>'} FETCHING_EXTERNAL_DIRECTORIES...</div>
+            <ul className="space-y-2 text-[#94A3B8] text-[12px] uppercase tracking-widest">
+              <li>
+                <a href={personalInfo.social.github} target="_blank" rel="noreferrer" className="hover:text-[#5EEAD4] flex items-center gap-2 transition-colors">
+                  <span className="text-[#475569]">[{'>'}]</span> GITHUB_ARCHIVE
+                </a>
+              </li>
+              <li>
+                <a href={personalInfo.social.linkedin} target="_blank" rel="noreferrer" className="hover:text-[#5EEAD4] flex items-center gap-2 transition-colors">
+                  <span className="text-[#475569]">[{'>'}]</span> LINKEDIN_NODE
+                </a>
+              </li>
+              <li>
+                <a href="/resume.pdf" target="_blank" rel="noreferrer" className="hover:text-[#5EEAD4] flex items-center gap-2 transition-colors">
+                  <span className="text-[#475569]">[{'>'}]</span> DOWNLOAD_DOSSIER (PDF)
+                </a>
+              </li>
+            </ul>
+          </div>
+        );
+        break;
 
-      // Floating profile image animation
-      gsap.to('.profile-image', {
-        y: -15,
-        duration: 3,
-        ease: 'sine.inOut',
-        repeat: -1,
-        yoyo: true,
+      case 'skills':
+        output = (
+          <div className="mt-2 text-[#94A3B8] text-[12px] uppercase tracking-wide">
+            <div className="text-[#5EEAD4] mb-2">{'>'} SYSTEM_CAPABILITIES_LOADED:</div>
+            <p><span className="text-[#475569]">QA_GATES:</span> Playwright, Selenium, TestNG, Jest</p>
+            <p><span className="text-[#475569]">LANGUAGES:</span> Java, Python, TypeScript</p>
+            <p><span className="text-[#475569]">AI_SYS:</span> GraphRAG, Agentic Pipelines, LLM Eval</p>
+            <p><span className="text-[#475569]">DEVOPS:</span> Jenkins, GitHub Actions, Docker</p>
+          </div>
+        );
+        break;
+
+      case 'projects':
+        scrollToSection('projects');
+        output = <div className="text-[#5EEAD4] mt-2">{'>'} ROUTING_TO_ARCHIVE... [OK]</div>;
+        break;
+
+      case 'contact':
+        scrollToSection('contact');
+        output = (
+          <div className="text-[#10B981] mt-2">
+            {'>'} INITIATING_SECURE_UPLINK... <a href={`mailto:${personalInfo.email}`} className="underline text-[#5EEAD4] hover:text-[#F59E0B]">{personalInfo.email}</a>
+          </div>
+        );
+        break;
+      
+      case 'sudo':
+        output = <div className="text-[#EF4444] mt-2 bg-[#EF4444]/10 border border-[#EF4444]/30 p-2 uppercase tracking-widest font-bold">ACCESS DENIED: Unauthorized privilege escalation attempt logged.</div>;
+        break;
+
+      case 'clear':
+        setCommandHistory([]);
+        setInputValue('');
+        return;
+      
+      default:
+        output = <div className="text-[#EF4444] mt-2">SYS.ERR: Unrecognized protocol '{cmd}'. Type 'help' for manual.</div>;
+    }
+
+    setCommandHistory((prev) => [...prev, { command: cmd, output }]);
+    setInputValue('');
+  };
+
+  /* ──────────────────────────────────────────────────────────
+     Auto-Scroll (Protected)
+     ────────────────────────────────────────────────────────── */
+  useEffect(() => {
+    if (terminalBodyRef.current) {
+      terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
+    }
+  }, [commandHistory, isInteractive]);
+
+  /* ──────────────────────────────────────────────────────────
+     Hardware Boot Animation
+     ────────────────────────────────────────────────────────── */
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const ctx = gsap.context(() => {
+      // 1. HARD RESET
+      gsap.set('.hero-element', { opacity: 0 });
+      gsap.set('.terminal-panel', { borderColor: '#000000', backgroundColor: '#000000' });
+      gsap.set('.terminal-chrome', { borderColor: '#000000', backgroundColor: '#000000' });
+      gsap.set('.terminal-content', { opacity: 0 });
+      
+      gsap.set('.assertion-row', { opacity: 0 });
+      assertions.forEach((a) => {
+        gsap.set(`.status-running-${a.id}`, { opacity: 0 });
+        gsap.set(`.status-pass-${a.id}`, { opacity: 0 });
       });
 
-      // Typing effect for tagline
-      const words = personalInfo.tagline.split(' ');
-      let currentWordIndex = 0;
+      const tl = gsap.timeline({ delay: prefersReducedMotion ? 0 : 0.2 });
 
-      const typeWords = () => {
-        if (currentWordIndex < words.length) {
-          const currentText = words.slice(0, currentWordIndex + 1).join(' ');
-          gsap.to('.tagline-text', {
-            text: currentText,
-            duration: 0.5,
-            ease: 'none',
-            onComplete: () => {
-              currentWordIndex++;
-              setTimeout(typeWords, 300);
-            },
-          });
-        }
-      };
+      // 2. Left side identity text
+      tl.to('.hero-element', { opacity: 1, duration: 0.1, stagger: 0.05, ease: 'none' })
+        .call(() => setStartDecryption(true));
 
-      setTimeout(typeWords, 2000);
+      // 3. Right side Terminal powers up
+      tl.to('.terminal-panel', { borderColor: '#1E293B', duration: 0.1, ease: 'none' }, '+=0.2')
+        .to('.terminal-panel', { backgroundColor: '#0B0E14', duration: 0.1, ease: 'none' })
+        .to('.terminal-chrome', { backgroundColor: '#11151C', borderBottomColor: '#1E293B', duration: 0.1, ease: 'none' }, '<')
+        .to('.terminal-content', { opacity: 1, duration: 0.1, stagger: 0.05, ease: 'none' });
 
-      // Stats animation
-      gsap.fromTo(
-        '.hero-stats',
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.hero-stats',
-            start: 'top 80%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
+      // 4. Automated Execution Pipeline
+      const commandTl = gsap.timeline({
+        delay: prefersReducedMotion ? 0.1 : 0.5,
+        onComplete: () => {
+          setIsInteractive(true);
+          setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 100);
+        },
+      });
+
+      commandTl.to('.terminal-command-intro', {
+        text: 'npm run exec --system_auth',
+        duration: prefersReducedMotion ? 0.1 : 0.5,
+        ease: 'none',
+      });
+
+      assertions.forEach((a) => {
+        const processingTime = prefersReducedMotion ? 0.05 : 0.25;
+        commandTl.to(`.assertion-row-${a.id}`, { opacity: 1, duration: 0.1, ease: 'none' }, '+=0.1');
+        commandTl.set(`.status-running-${a.id}`, { opacity: 1 }, '<');
+        commandTl.set(`.status-running-${a.id}`, { opacity: 0 }, `+=${processingTime}`);
+        commandTl.set(`.status-pass-${a.id}`, { opacity: 1 }, '<');
+      });
+
+      // Terminal System Lock Flash
+      commandTl.to('.terminal-summary', { opacity: 1, duration: 0.1, ease: 'none' }, '+=0.2');
+      commandTl.to('.terminal-panel', { borderColor: '#5EEAD4', duration: 0.1, ease: 'none' }, '<');
+      commandTl.to('.terminal-panel', { borderColor: '#1E293B', duration: 0.5, ease: 'none' }, '+=0.3');
+
     }, heroRef);
 
     return () => ctx.revert();
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section
-      id="home"
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden py-16 sm:py-20 lg:py-0"
-      data-section="hero"
+      className="relative min-h-screen flex items-center bg-[#05070A] overflow-hidden selection:bg-[#5EEAD4] selection:text-[#0B0E14] font-mono"
     >
-      {/* Parallax Background Layers */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_bottom,#0a192f_1px,transparent_1px),linear-gradient(to_right,#0a192f_1px,transparent_1px)] bg-[size:30px_30px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-jarvis-primary/5 rounded-full blur-3xl transform translate-y-1/4 translate-x-1/4" />
-        <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-jarvis-secondary/5 rounded-full blur-3xl transform -translate-y-1/4 -translate-x-1/4" />
-      </div>
-
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 xl:gap-20 items-center">
-          {/* Left Column - Text Content */}
-          <div ref={textRef} className="text-center lg:text-left space-y-5 sm:space-y-6 lg:space-y-8 order-2 lg:order-1">
-            {/* Main Title */}
-            <h1 className="hero-title">
-              <span className="block text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-orbitron">
-                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary via-jarvis-secondary to-jarvis-accent glitch-text animate-gradient">
-                  {personalInfo.name}
-                </span>
-              </span>
-            </h1>
-
-            {/* Accent Line */}
-            <div className="w-20 sm:w-24 md:w-32 h-1 sm:h-1.5 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto lg:mx-0 rounded-full shadow-lg shadow-jarvis-primary/50"></div>
-
-            {/* Subtitle */}
-            <h2 className="hero-subtitle text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-jarvis-primary font-bold">
-              <span className="font-exo2 tracking-wide">{personalInfo.title}</span>
-            </h2>
-
-            {/* Typing Tagline */}
-            <p className="hero-tagline tagline-text text-sm sm:text-base md:text-lg lg:text-xl text-jarvis-light leading-relaxed font-exo2 max-w-xl lg:max-w-2xl mx-auto lg:mx-0 px-2 sm:px-0"></p>
-
-            {/* CTA Buttons */}
-            <div className="hero-buttons flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4 px-4 sm:px-0">
-              <button
-                onClick={() => scrollToSection('projects')}
-                className="group relative px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary text-jarvis-black font-bold text-sm sm:text-base rounded-lg sm:rounded-xl overflow-hidden shadow-lg shadow-jarvis-primary/25 hover:shadow-jarvis-primary/40 transition-all duration-300 hover:scale-105 active:scale-95"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  View Projects
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-jarvis-secondary to-jarvis-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
-
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="group px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 border-2 border-jarvis-primary text-jarvis-primary font-bold text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-jarvis-primary hover:text-jarvis-black transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-jarvis-primary/10 hover:shadow-jarvis-primary/30"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  Contact Me
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </span>
-              </button>
+      <div className="relative z-10 container mx-auto px-4 sm:px-8 py-24">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          {/* ── LEFT PANE: Identity ── */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="hero-element flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase text-[#F59E0B]">
+              <span className="w-6 h-[1px] bg-[#F59E0B]" />
+              SECURE_PIPELINE_OP
             </div>
 
-            {/* Stats */}
-            <div className="hero-stats grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 md:gap-6 max-w-xs xs:max-w-sm sm:max-w-md mx-auto lg:mx-0 pt-4 sm:pt-6 lg:pt-8">
-              <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-primary/20 transition-all duration-300">
-                <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-primary to-jarvis-secondary font-orbitron group-hover:scale-110 transition-transform">15+</div>
-                <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Projects</div>
-              </div>
-              <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-secondary/20 transition-all duration-300">
-                <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-secondary to-jarvis-accent font-orbitron group-hover:scale-110 transition-transform">3+</div>
-                <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Years Exp</div>
-              </div>
-              <div className="group text-center p-2 xs:p-3 sm:p-4 rounded-lg sm:rounded-xl holographic-panel backdrop-blur-sm hover:shadow-lg hover:shadow-jarvis-accent/20 transition-all duration-300">
-                <div className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-jarvis-accent to-jarvis-primary font-orbitron group-hover:scale-110 transition-transform">AI</div>
-                <div className="text-xs sm:text-sm text-jarvis-light mt-0.5 sm:mt-1 font-exo2">Focus</div>
-              </div>
+            <h1 className="hero-element font-bold text-4xl md:text-5xl lg:text-6xl text-[#94A3B8] leading-tight tracking-tighter uppercase">
+              {personalInfo.name}
+            </h1>
+
+            <div className="space-y-4">
+              <h2 className="hero-element text-[12px] tracking-widest text-[#5EEAD4] uppercase border-l-2 border-[#5EEAD4] pl-3">
+                {personalInfo.title}
+              </h2>
+              {/* Decrypted Tagline */}
+              <p className="hero-element text-[13px] text-[#475569] leading-relaxed max-w-lg min-h-[4rem] uppercase tracking-wide">
+                {taglineDecrypted}
+                <span className="inline-block w-[6px] h-[12px] bg-[#5EEAD4] ml-2 align-middle animate-[pulse_1s_steps(2,start)_infinite]" />
+              </p>
+            </div>
+
+            {/* Operator Commands */}
+            <div className="hero-element flex flex-wrap gap-4 pt-4">
+              <button
+                onClick={() => scrollToSection('projects')}
+                className="group relative text-[10px] px-6 py-3 border border-[#5EEAD4] bg-[#5EEAD4]/10 text-[#5EEAD4] font-bold tracking-widest uppercase hover:bg-[#5EEAD4] hover:text-[#0B0E14] transition-colors duration-200"
+              >
+                [ VIEW_ARCHIVE ]
+              </button>
+              
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="group text-[10px] px-6 py-3 border border-[#1E293B] bg-[#0B0E14] text-[#94A3B8] tracking-widest uppercase hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors duration-200"
+              >
+                [ ESTABLISH_UPLINK ]
+              </button>
             </div>
           </div>
 
-          {/* Right Column - Profile Image with Dual Rotating Arcs */}
-          <div ref={profileRef} className="flex justify-center lg:justify-end relative order-1 lg:order-2">
-            <div className="relative group">
-              {/* Outer Glow Ring */}
-              <div className="absolute -inset-6 sm:-inset-8 md:-inset-10 lg:-inset-12 rounded-full overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-jarvis-primary/20 via-jarvis-secondary/20 to-jarvis-accent/20 rounded-full blur-xl opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
-              </div>
-
-              {/* Top Arc (Clockwise) */}
-              <div className="absolute -inset-6 sm:-inset-8 md:-inset-10 lg:-inset-12 rounded-full overflow-hidden">
-                <div className="absolute inset-0 rounded-full border-t-4 sm:border-t-6 md:border-t-8 border-jarvis-secondary/80 animate-spin-clockwise"></div>
-              </div>
-
-              {/* Bottom Arc (Counter-Clockwise) */}
-              <div className="absolute -inset-6 sm:-inset-8 md:-inset-10 lg:-inset-12 rounded-full overflow-hidden">
-                <div className="absolute inset-0 rounded-full border-b-4 sm:border-b-6 md:border-b-8 border-jarvis-secondary/80 animate-spin-counter-clockwise"></div>
-              </div>
-
-              {/* Inner Pulsing Core */}
-              <div className="absolute -inset-6 sm:-inset-8 md:-inset-10 lg:-inset-12 rounded-full overflow-hidden">
-                <div className="absolute inset-8 sm:inset-10 md:inset-12 rounded-full bg-jarvis-primary/30 animate-pulse"></div>
-              </div>
-
-              {/* Profile Image Container */}
-              <div className="relative w-40 h-40 xs:w-48 xs:h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden holographic-border shadow-2xl">
-                {/* Animated gradient border */}
-                <div className="absolute -inset-0.5 sm:-inset-1 bg-gradient-to-r from-jarvis-primary via-jarvis-secondary to-jarvis-accent rounded-full opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-gradient"></div>
-
-                {/* Inner container */}
-                <div className="relative w-full h-full rounded-full overflow-hidden border-2 sm:border-4 border-jarvis-black">
-                  <img
-                    src={personalInfo.profileImage}
-                    alt={personalInfo.name}
-                    className="w-full h-full object-cover profile-image transform group-hover:scale-110 transition-transform duration-500"
-                    loading="eager"
-                  />
-
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-jarvis-black/60 via-transparent to-transparent" />
-
-                  {/* Bottom label */}
-                  <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 left-0 right-0 text-center backdrop-blur-sm bg-jarvis-black/30 py-1 sm:py-2 border-t border-jarvis-primary/30">
-                    <div className="text-xs sm:text-sm text-jarvis-primary font-mono font-bold tracking-wider">SDET/SDE</div>
-                  </div>
+          {/* ── RIGHT PANE: Terminal Suite ── */}
+          <div className="lg:col-span-7 relative group">
+            <div 
+              className="terminal-panel relative border border-[#1E293B] bg-[#0B0E14] shadow-2xl flex flex-col transition-colors duration-300 h-[500px]"
+              onClick={() => isInteractive && inputRef.current?.focus({ preventScroll: true })}
+            >
+              {/* Terminal Chrome */}
+              <div className="terminal-chrome flex items-center justify-between px-4 py-2 border-b border-[#1E293B] bg-[#11151C] shrink-0">
+                <div className="terminal-content flex items-center gap-3">
+                  <div className="w-2 h-2 bg-[#5EEAD4] animate-[pulse_2s_ease-in-out_infinite]" />
+                  <span className="text-[10px] text-[#475569] tracking-widest uppercase">
+                    SYS.OP // LANGLEY_NODE_04
+                  </span>
                 </div>
+                <span className="terminal-content text-[10px] text-[#475569] uppercase tracking-widest">AWAITING_INPUT</span>
+              </div>
+
+              {/* Terminal Body */}
+              <div
+                ref={terminalBodyRef}
+                className="px-5 py-5 text-[12px] leading-relaxed flex-1 overflow-y-auto"
+              >
+                {/* Initial Boot Command */}
+                <div className="terminal-content flex items-center gap-3 text-[#F59E0B] font-semibold mb-6">
+                  <span>{'>'}</span>
+                  <span className="terminal-command-intro text-[#94A3B8] uppercase" />
+                  {!isInteractive && <span className="w-[6px] h-[12px] bg-[#5EEAD4] inline-block animate-[pulse_1s_steps(2,start)_infinite]" />}
+                </div>
+
+                {/* System Check Rows (FIXED ALIGNMENT) */}
+                <div className="space-y-2 mb-6">
+                  {assertions.map((a) => (
+                    <div key={a.id} className={`assertion-row assertion-row-${a.id} flex items-center gap-4`}>
+                      <span className="relative inline-block w-24 h-5 shrink-0 font-bold tracking-widest uppercase">
+                        <span className={`status-running-${a.id} absolute inset-0 text-[#F59E0B] flex items-center gap-2`}>
+                          <span className="w-1.5 h-1.5 bg-[#F59E0B] animate-pulse" /> RUNNING
+                        </span>
+                        <span className={`status-pass-${a.id} absolute inset-0 text-[#10B981] flex items-center gap-2`}>
+                          <span className="w-1.5 h-1.5 bg-[#10B981]" /> [ OK ]
+                        </span>
+                      </span>
+                      {/* Fixed width to ensure perfect alignment and removed truncate */}
+                      <span className="text-[#475569] w-[220px] shrink-0 uppercase tracking-widest">
+                        {a.label}
+                      </span>
+                      <span className="text-[#94A3B8] uppercase tracking-wider truncate">
+                        {a.detail}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* System Summary */}
+                <div className="terminal-summary opacity-0 border-y border-[#1E293B] py-3 mb-4 text-[#475569] text-[10px] uppercase tracking-widest flex justify-between">
+                  <span>AUTH: <span className="text-[#10B981] font-bold">VERIFIED</span></span>
+                  <span>GATES: <span className="text-[#10B981] font-bold">PASSED</span></span>
+                  <span>TYPE 'HELP' TO BEGIN</span>
+                </div>
+
+                {/* Interactive Log History */}
+                {isInteractive && (
+                  <div className="space-y-4">
+                    {commandHistory.map((item, index) => (
+                      <div key={index} className="flex flex-col">
+                        <div className="flex items-center gap-3 text-[#F59E0B] font-semibold">
+                          <span>{'>'}</span>
+                          <span className="text-[#94A3B8] uppercase tracking-wide">{item.command}</span>
+                        </div>
+                        <div className="ml-5">
+                          {item.output}
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {/* Live Input Field */}
+                    <form onSubmit={handleCommand} className="flex items-center gap-3 relative mt-2">
+                      <span className="text-[#F59E0B] font-semibold">{'>'}</span>
+                      <div className="relative w-full flex items-center">
+                        <input
+                          ref={inputRef}
+                          type="text"
+                          value={inputValue}
+                          onChange={(e) => setInputValue(e.target.value)}
+                          className="bg-transparent border-none outline-none text-[#94A3B8] w-full caret-transparent placeholder:text-[#1E293B] uppercase tracking-wide"
+                          placeholder="AWAITING_COMMAND..."
+                          autoComplete="off"
+                          spellCheck="false"
+                        />
+                        {/* Custom Block Cursor */}
+                        <span className="absolute left-0 top-0 text-transparent pointer-events-none whitespace-pre font-mono uppercase tracking-wide">
+                          {inputValue}
+                          <span className="inline-block w-[6px] h-[12px] bg-[#5EEAD4] translate-y-[2px] animate-[pulse_1s_steps(2,start)_infinite]" />
+                        </span>
+                      </div>
+                    </form>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hero-element">
         <button
           onClick={() => scrollToSection('about')}
-          className="flex flex-col items-center group cursor-pointer"
+          className="flex flex-col items-center group opacity-50 hover:opacity-100 transition-opacity"
+          aria-label="Scroll to next section"
         >
-          <div className="text-xs text-jarvis-light font-mono mb-2 sm:mb-3 tracking-widest group-hover:text-jarvis-primary transition-colors">SCROLL</div>
-          <div className="w-5 h-9 sm:w-6 sm:h-10 md:w-7 md:h-12 border-2 border-jarvis-primary/50 rounded-full flex justify-center p-1.5 sm:p-2 group-hover:border-jarvis-primary transition-colors shadow-lg shadow-jarvis-primary/20">
-            <div className="w-1 h-2 sm:w-1.5 sm:h-3 bg-jarvis-primary rounded-full animate-bounce shadow-lg shadow-jarvis-primary/50" />
-          </div>
+          <span className="text-[9px] tracking-[0.4em] text-[#475569] mb-2 group-hover:text-[#5EEAD4] transition-colors uppercase">
+            DESCEND
+          </span>
+          <span className="w-[1px] h-8 bg-[#1E293B] relative overflow-hidden group-hover:bg-[#5EEAD4]/20">
+            <span className="absolute top-0 left-0 w-full h-1/3 bg-[#5EEAD4] animate-[scanline_2s_linear_infinite]" />
+          </span>
         </button>
       </div>
     </section>

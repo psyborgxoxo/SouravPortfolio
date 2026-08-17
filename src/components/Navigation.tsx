@@ -9,17 +9,23 @@ const Navigation: React.FC = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    // Animate navigation on mount
+    // Hardware boot snap animation for nav
     gsap.fromTo('.nav-container',
-      { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out', delay: 0.5 }
+      { y: -20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.1, ease: 'none', delay: 0.1 }
     );
 
     // Scroll detection
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+
+      // Calculate pure hardware progress bar
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      setScrollProgress((winScroll / height) * 100);
 
       // Update active section based on scroll position
       const sections = navigationItems.map(item => item.href.substring(1));
@@ -55,111 +61,109 @@ const Navigation: React.FC = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
 
-    // Animate mobile menu
+    // Snappy hardware dropdown animation
     if (!isMobileMenuOpen) {
       gsap.fromTo('.mobile-menu',
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+        { opacity: 0 },
+        { opacity: 1, duration: 0.1, ease: 'none' }
       );
     }
   };
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-        ? 'holographic-panel backdrop-blur-xl border-b border-jarvis-primary/20'
-        : 'bg-transparent'
-        }`}>
-        <div className="container-width">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <div className="nav-container flex items-center space-x-3">
-              <div className="relative">
-                <div className="w-12 h-12 bg-jarvis-black-800 rounded-lg flex items-center justify-center holographic-border group hover:shadow-glow transition-all duration-300">
-                  <img
-                    src="/logos.png"
-                    alt="SS Logo"
-                    className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-pulse-glow border-2 border-jarvis-black" />
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 font-mono ${
+        isScrolled ? 'bg-[#0B0E14] border-b border-[#1E293B]' : 'bg-[#05070A] border-b border-transparent'
+      }`}>
+        
+        {/* Top Hairline Progress Bar */}
+        <div className="absolute top-0 left-0 h-[1px] bg-[#1E293B] w-full z-50">
+          <div 
+            className="h-full bg-[#5EEAD4] transition-all duration-75 ease-linear"
+            style={{ width: `${scrollProgress}%` }}
+          />
+        </div>
+
+        <div className="max-w-[1200px] mx-auto w-full px-4 sm:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16">
+            
+            {/* ── LOGO / SYSTEM ROOT ── */}
+            <div className="nav-container flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('#home')}>
+              <div className="flex items-center justify-center w-6 h-6 bg-[#05070A] border border-[#1E293B]">
+                <span className="w-1.5 h-1.5 bg-[#F59E0B] animate-pulse" />
               </div>
-              {/* <div className="hidden sm:block">
-                <div className="font-orbitron font-bold text-lg text-jarvis-white">
-                  <span className="neon-text">SOURAV</span>
-                </div>
-                <div className="text-xs text-jarvis-light font-mono">STATUS: ONLINE</div>
-              </div> */}
+              <div className="flex flex-col">
+                <span className="text-[12px] text-[#94A3B8] font-bold tracking-widest uppercase leading-none">
+                  ST3GN0
+                </span>
+                <span className="text-[9px] text-[#475569] tracking-widest uppercase mt-0.5 leading-none">
+                  // SYS_ROOT
+                </span>
+              </div>
             </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-8">
-              {navigationItems.map((item, index) => (
-                <button
-                  key={item.name}
-                  onClick={() => scrollToSection(item.href)}
-                  className={`relative group px-4 py-2 font-medium transition-all duration-300 ${activeSection === item.href.substring(1)
-                    ? 'text-jarvis-primary'
-                    : 'text-jarvis-light hover:text-jarvis-primary'
-                    }`}
-                >
-                  <span className="font-exo2">{item.name}</span>
-                  {activeSection === item.href.substring(1) && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary rounded-full scan-line" />
-                  )}
-                  <div className="absolute inset-0 bg-jarvis-primary/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 -z-10" />
-                </button>
-              ))}
+            {/* ── DESKTOP NAVIGATION ── */}
+            <div className="hidden lg:flex items-center h-full">
+              {navigationItems.map((item, index) => {
+                const isActive = activeSection === item.href.substring(1);
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => scrollToSection(item.href)}
+                    className={`relative h-full flex items-center px-6 text-[10px] uppercase tracking-widest border-l border-[#1E293B] transition-colors duration-200 ${
+                      isActive 
+                        ? 'bg-[#11151C] text-[#5EEAD4] font-bold' 
+                        : 'bg-transparent text-[#475569] hover:bg-[#11151C]/50 hover:text-[#94A3B8]'
+                    } ${index === navigationItems.length - 1 ? 'border-r' : ''}`}
+                  >
+                    {isActive && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#5EEAD4]" />}
+                    {isActive && <span className="text-[#5EEAD4] mr-2">{'>'}</span>}
+                    {item.name}
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* ── MOBILE MENU BUTTON ── */}
             <button
               onClick={toggleMobileMenu}
-              className="lg:hidden relative w-10 h-10 flex flex-col justify-center items-center space-y-1 group"
+              className="lg:hidden relative w-10 h-10 flex flex-col justify-center items-center border border-[#1E293B] bg-[#0B0E14] text-[#475569] hover:border-[#5EEAD4] hover:text-[#5EEAD4] transition-colors"
             >
-              <div className={`w-6 h-0.5 bg-jarvis-primary transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : 'group-hover:shadow-glow'
-                }`} />
-              <div className={`w-6 h-0.5 bg-jarvis-primary transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'group-hover:shadow-glow'
-                }`} />
-              <div className={`w-6 h-0.5 bg-jarvis-primary transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : 'group-hover:shadow-glow'
-                }`} />
+              <div className={`w-4 h-[1px] bg-current transition-all duration-200 ${isMobileMenuOpen ? 'rotate-45 translate-y-[3px]' : 'mb-1'}`} />
+              <div className={`w-4 h-[1px] bg-current transition-all duration-200 ${isMobileMenuOpen ? 'opacity-0' : 'mb-1'}`} />
+              <div className={`w-4 h-[1px] bg-current transition-all duration-200 ${isMobileMenuOpen ? '-rotate-45 -translate-y-[3px]' : ''}`} />
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <div className={`lg:hidden overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-          }`}>
-          <div className="mobile-menu holographic-panel border-t border-jarvis-primary/20">
-            <div className="container-width py-4">
-              <div className="space-y-2">
-                {navigationItems.map((item, index) => (
-                  <button
-                    key={item.name}
-                    onClick={() => scrollToSection(item.href)}
-                    className={`block w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 ${activeSection === item.href.substring(1)
-                      ? 'bg-jarvis-primary text-jarvis-black'
-                      : 'text-jarvis-light hover:bg-jarvis-primary/10 hover:text-jarvis-primary'
-                      }`}
-                  >
-                    <span className="font-exo2">{item.name}</span>
-                  </button>
-                ))}
-              </div>
+        {/* ── MOBILE DROPDOWN MENU ── */}
+        <div className={`lg:hidden overflow-hidden transition-all duration-200 ease-none bg-[#0B0E14] border-t border-[#1E293B] ${
+          isMobileMenuOpen ? 'max-h-[500px] border-b' : 'max-h-0 border-transparent border-b-0'
+        }`}>
+          <div className="mobile-menu flex flex-col p-4 space-y-2">
+            <div className="text-[10px] text-[#475569] tracking-widest uppercase mb-2">
+              [ NAV_PROTOCOLS ]
             </div>
+            {navigationItems.map((item) => {
+              const isActive = activeSection === item.href.substring(1);
+              return (
+                <button
+                  key={item.name}
+                  onClick={() => scrollToSection(item.href)}
+                  className={`flex items-center text-left w-full px-4 py-3 text-[11px] uppercase tracking-widest border border-[#1E293B] transition-colors duration-200 ${
+                    isActive 
+                      ? 'bg-[#11151C] text-[#5EEAD4] border-l-2 border-l-[#5EEAD4] font-bold' 
+                      : 'bg-[#05070A] text-[#475569] hover:border-[#5EEAD4] hover:text-[#94A3B8]'
+                  }`}
+                >
+                  {isActive && <span className="mr-3">{'>'}</span>}
+                  {item.name}
+                </button>
+              );
+            })}
           </div>
         </div>
       </nav>
-
-      {/* Scroll Progress Indicator */}
-      <div className="fixed top-0 left-0 right-0 z-40 h-1 bg-jarvis-gray-950/50">
-        <div
-          className="h-full bg-gradient-to-r from-jarvis-primary to-jarvis-secondary transition-all duration-150 scan-line"
-          style={{
-            width: `${Math.min((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100, 100)}%`
-          }}
-        />
-      </div>
     </>
   );
 };

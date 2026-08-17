@@ -68,8 +68,8 @@ export interface Certification {
 
 export const personalInfo: PersonalInfo = {
   name: "SOURAV",
-  title: "Full Stack SDET , MERN Stack Dev & AI Generalist",
-  tagline: "Electronics Engineer | QA Specialist | MERN Developer | Cybersecurity Enthusiast | AI Generalist",
+  title: "AI Automation Engineer",
+  tagline: "Electronics Engineer | QA Specialist | MERN Developer | Cybersecurity Enthusiast | Gen AI Engineer",
   bio: " Detail-oriented SDET with 2.5 years of experience in manual and automation testing, API validation, CI/CD integration, and building scalable test frameworks using Java, Selenium, TestNG, and RestAssured. Proven track record of improving release quality and engineering velocity through intelligent automation and strong collaboration with product and development teams at Fynd (Jio Commerce). Experienced across functional, regression, and system testing with hands-on expertise in designing test strategies, analyzing requirements, and driving sprint-level QA ownership. Brings emerging capabilities in AI-driven testing, including self-healing automation, LLM-assisted test generation, and RAG-based validation workflows. Strong technical foundation, a product-centric mindset, and the ability to deliver reliable, high-quality releases in fast-paced Agile environments. ",
   location: "Bangalore, India",
   email: "souravshetty11@gmail.com",
@@ -205,19 +205,6 @@ export const projects: Project[] = [
     githubRepo: "https://github.com/psyborgxoxo/QPetStore-API-Automation",
   },
 
-  // New Full Stack Development Projects
-  // {
-  //   id: 8,
-  //   title: "Personal Portfolio Website",
-  //   description:
-  //     "Developed a personal portfolio website using React and Vite. Integrated modern design principles and responsive layouts for optimal user experience.",
-  //   tech: ["React", "Vite", "Tailwind CSS", "TypeScript"],
-  //   category: "Full Stack Development",
-  //   status: "completed",
-  //   year: "2023",
-  //   icon: "Portfolio",
-  //   githubRepo: "https://github.com/psyborgxoxo/SouravPortfolio",
-  // },
   {
     id: 9,
     title: "Design Hut - Creative Design Platform",
@@ -230,43 +217,6 @@ export const projects: Project[] = [
     icon: "Design",
     githubRepo: "https://github.com/psyborgxoxo/design-hut",
   },
-  // Existing Projects
-  // {
-  //   id: 10,
-  //   title: "React Web Apps - Social Media MERN Clones",
-  //   description:
-  //     "Built multiple social media applications including Amazon, Tinder, TikTok, Instagram, and WhatsApp clones using MERN stack. Implemented real-time features, authentication systems, and responsive design.",
-  //   tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Socket.io"],
-  //   category: "Full Stack Development",
-  //   status: "completed",
-  //   year: "2022",
-  //   icon: "SocialNetwork",
-  //   githubRepo: "https://github.com/psyborgxoxo/social-media-clones",
-  // },
-  // {
-  //   id: 11,
-  //   title: "E-Commerce Construction Based Website",
-  //   description:
-  //     "Quality Assured Website with comprehensive QA procedures and 50+ work instructions. Monitored field-level performance and reported current status with improvements through research and root cause analysis.",
-  //   tech: ["React.js", "JavaScript", "QA Tools", "Performance Monitoring"],
-  //   category: "QA & Development",
-  //   status: "completed",
-  //   year: "2022",
-  //   icon: "Construction",
-  //   githubRepo: "https://github.com/psyborgxoxo/e-commerce-construction",
-  // },
-  // {
-  //   id: 12,
-  //   title: "React Native Apps - Employee Authentication App",
-  //   description:
-  //     "Complete employee authentication system powered by Firebase backend, ready for implementation. Features include secure login, role-based access, and real-time data synchronization.",
-  //   tech: ["React Native", "Firebase", "Authentication Services", "Redux"],
-  //   category: "Mobile Development",
-  //   status: "completed",
-  //   year: "2022",
-  //   icon: "MobileApp",
-  //   githubRepo: "https://github.com/psyborgxoxo/employee-auth-app",
-  // },
   {
     id: 13,
     title: "Job Portal App - AI-Powered MERN Application",
@@ -284,6 +234,42 @@ export const projects: Project[] = [
     year: "2022",
     icon: "JobPortal",
     githubRepo: "https://github.com/psyborgxoxo/job-portal-ai",
+  },
+  {
+    id: 14,
+    title: "RAG Pipeline with GraphRAG Integration",
+    description:
+      "Production-grade RAG pipeline built on Azure AI Search and Groq LLaMA, extended with a GraphRAG layer for entity extraction and ontology-based retrieval. Deployed as a Dockerized FastAPI service.",
+    tech: ["Azure AI Search", "Groq LLaMA", "FastAPI", "Docker", "GraphRAG"],
+    category: "AI & Full Stack",
+    status: "completed",
+    year: "2026",
+    icon: "Brain",
+    githubRepo: "https://github.com/psyborgxoxo/RAG-Pipeline-Azure-AI-Search-Groq",
+  },
+  {
+    id: 15,
+    title: "Prompt Engineering & LLM Fine-Tuning Pipeline",
+    description:
+      "LLM fine-tuning pipeline using LoRA on Colab, paired with a custom LLM-as-judge evaluator built to replace RAGAS. Includes API key auth with rate limiting.",
+    tech: ["LoRA", "Python", "LLM-as-judge", "FastAPI"],
+    category: "AI & Full Stack",
+    status: "completed",
+    year: "2026",
+    icon: "Sparkles",
+    githubRepo: "https://github.com/psyborgxoxo/Prompt-Engineering-LLM-Fine-Tuning-Pipeline",
+  },
+  {
+    id: 16,
+    title: "MERN Todo App — Jest & Cypress Suite",
+    description:
+      "Take-home QA assignment for a MERN Todo application, covering unit and end-to-end test coverage with Jest and Cypress under a 48-hour turnaround.",
+    tech: ["Jest", "Cypress", "MERN Stack"],
+    category: "QA & Development",
+    status: "completed",
+    year: "2026",
+    icon: "CheckCircle",
+    githubRepo: "https://github.com/psyborgxoxo/mern-todo-jest-cypress",
   },
 ];
 
@@ -392,43 +378,56 @@ export const experience: Experience[] = [
   }
 ];
 
-
-export const certifications: Certification[] = [
-  {
-    id: 1,
+export const certifications = [
+   {
+    id: 'gpcssi2021',
     name: "Gurugram Police Cyber Security Summer Internship 2021",
     issuer: "Gurugram Police",
     year: "2021",
     type: "internship"
   },
   {
-    id: 2,
-    name: "Oracle Java SE 11 Developer Certification (OCP)",
-    issuer: "Oracle",
-    year: "2024",
-    type: "certification"
+    id: 'anthropic-fluency',
+    name: 'AI Fluency Certification',
+    issuer: 'Anthropic Academy',
+    year: '2024',
+    description: 'Validates multi-model mechanics and prompting baseline.',
   },
   {
-    id: 3,
-    name: "ISTQB Foundation Level – Software Testing",
-    issuer: "ISTQB",
-    year: "2024",
-    type: "certification"
+    id: 'google-genai-leader',
+    name: 'Generative AI Leader Certification',
+    issuer: 'Google Cloud',
+    year: '2024',
+    description: 'Proves strategic and architectural understanding of enterprise generative AI.',
   },
   {
-    id: 5,
-    name: "DeepLearning.AI – Introduction to LLMs and RAG",
-    issuer: "DeepLearning.AI",
-    year: "2024",
-    type: "certification"
+    id: 'google-vertex-studio',
+    name: 'Introduction to Vertex AI Studio',
+    issuer: 'Google Cloud',
+    year: '2024',
+    description: 'Tactical deployment verifying hands-on prompt design and model tuning capabilities.',
   },
   {
-    id: 6,
-    name: "FreeCodeCamp – JavaScript Algorithms and Data Structures",
-    issuer: "Free Code Camp",
-    year: "2022",
-    type: "course"
-  }
+    id: 'google-mlops',
+    name: 'Machine Learning Operations (MLOps): Getting Started',
+    issuer: 'Google Cloud',
+    year: '2024',
+    description: 'Rapid-deployment module bridging CI/CD Jenkins expertise with live AI model deployment.',
+  },
+  {
+    id: 'google-vector-search',
+    name: 'Vector Search and Embeddings',
+    issuer: 'Google Cloud',
+    year: '2024',
+    description: 'Targeted micro-lab designed to bulletproof resume claims regarding hybrid RAG architectures.',
+  },
+  {
+    id: 'google-professional-ml',
+    name: 'Professional Machine Learning Engineer Certification',
+    issuer: 'Google Cloud',
+    year: '2024',
+    description: 'Long-term objective to execute once job pipeline is fully stabilized.',
+  },
 ];
 
 

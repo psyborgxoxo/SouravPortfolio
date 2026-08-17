@@ -1,221 +1,249 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Assuming these come from your data file. (Mocked here for demonstration)
 import { personalInfo, education, certifications, interests } from '../data/portfolioData';
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* ──────────────────────────────────────────────────────────────
+   Custom Hook: Cryptographic Text Scramble
+   ────────────────────────────────────────────────────────────── */
+const useDecryptionEffect = (text: string, trigger: boolean, speed = 25) => {
+  const [displayText, setDisplayText] = useState('');
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*<>';
+  
+  useEffect(() => {
+    if (!trigger) return;
+    let iteration = 0;
+    let interval: NodeJS.Timeout;
+    
+    interval = setInterval(() => {
+      setDisplayText(text.split('').map((char, index) => {
+        if (index < iteration || char === ' ') return text[index];
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join(''));
+      
+      if (iteration >= text.length) clearInterval(interval);
+      iteration += 1 / 2;
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, trigger, speed]);
+
+  return displayText;
+};
+
 const About: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Decryption effect triggers when section scrolls into view
+  const titleDecrypted = useDecryptionEffect("TARGET_DOSSIER_REVEALED", isVisible, 30);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    const ctx = gsap.context(() => {
+      // Set initial states (Hardware powered down)
+      gsap.set('.dossier-panel', { backgroundColor: '#000000', borderColor: '#000000' });
+      gsap.set('.dossier-content', { opacity: 0 });
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+      // Hardware Boot Sequence on Scroll
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+          onEnter: () => setIsVisible(true),
+        },
+      });
+
+      // 1. Borders snap on
+      tl.to('.dossier-panel', { borderColor: '#1E293B', duration: 0.1, ease: 'none' })
+      // 2. Backgrounds snap to slate
+        .to('.dossier-panel', { backgroundColor: 'transparent', duration: 0.1, ease: 'none' })
+        .to('.panel-bg-fill', { backgroundColor: '#11151C', duration: 0.1, ease: 'none' }, '<')
+      // 3. Content flashes in sequentially
+        .to('.dossier-content', { opacity: 1, duration: 0.1, stagger: 0.05, ease: 'none' });
+
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
-  // GSAP Animations
-  useEffect(() => {
-    if (!isMobile) {
-      const ctx = gsap.context(() => {
-        gsap.fromTo(
-          '.about-header',
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: '.about-header', start: 'top 85%' },
-          }
-        );
-
-        gsap.fromTo(
-          '.about-card',
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            ease: 'power3.out',
-            stagger: 0.15,
-            scrollTrigger: { trigger: '.cards-grid', start: 'top 80%' },
-          }
-        );
-      }, sectionRef);
-
-      return () => ctx.revert();
-    }
-  }, [isMobile]);
+  const contactFields = [
+    { label: 'OP_EMAIL', value: personalInfo.email },
+    { label: 'COMM_LINK', value: personalInfo.phone },
+    { label: 'BASE_LOC', value: personalInfo.location },
+  ];
 
   return (
     <section
       id="about"
       ref={sectionRef}
-      className="section-padding relative z-10 overflow-hidden"
-      data-section="about"
+      className="relative z-10 w-full min-h-screen bg-[#05070A] py-24 px-4 sm:px-8 flex flex-col font-mono selection:bg-[#5EEAD4] selection:text-[#0B0E14]"
     >
-      {/* Background gradient overlays */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[300px] sm:w-[400px] lg:w-[500px] 
-        h-[300px] sm:h-[400px] lg:h-[500px] bg-jarvis-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[250px] sm:w-[350px] lg:w-[400px] 
-        h-[250px] sm:h-[350px] lg:h-[400px] bg-jarvis-secondary/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Header */}
-        <div className="about-header text-center mb-10 sm:mb-12 lg:mb-14">
-          <p className="text-jarvis-primary text-xs sm:text-sm font-mono tracking-widest mb-2 sm:mb-3">// WHO I AM</p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold font-orbitron text-white mb-3 sm:mb-4 px-4">
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-jarvis-primary to-jarvis-secondary">Me</span>
-          </h2>
-          <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-jarvis-primary to-jarvis-secondary mx-auto rounded-full" />
+      {/* Container - Strict max width, centered */}
+      <div className="max-w-[1200px] w-full mx-auto relative flex flex-col">
+        
+        {/* ============================================================
+            DOSSIER HEADER (Minimal Chrome)
+        ============================================================ */}
+        <div className="dossier-panel border border-[#1E293B] bg-[#11151C] flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 py-3 mb-6">
+          <div className="dossier-content flex items-center gap-3">
+            <span className="w-2 h-2 bg-[#F59E0B] animate-pulse" />
+            <h2 className="text-[12px] text-[#F59E0B] tracking-widest uppercase">
+              {titleDecrypted || "AWAITING_DECRYPTION..."}
+            </h2>
+          </div>
+          <div className="dossier-content text-[10px] text-[#475569] tracking-widest mt-2 sm:mt-0 uppercase">
+            SYS.REF // {new Date().toISOString().split('T')[0].replace(/-/g, '.')}
+          </div>
         </div>
 
-        {/* MAIN GRID 2 × 2 */}
-        <div className="cards-grid grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-
-          {/* PROFILE CARD */}
-          <div className="about-card p-4 sm:p-5 lg:p-6 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/10 
-          hover:border-jarvis-primary/30 transition-all duration-300">
-            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-jarvis-primary/20 to-jarvis-secondary/20 
-              flex items-center justify-center border border-jarvis-primary/30 flex-shrink-0">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-jarvis-primary" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
-                </svg>
+        {/* ============================================================
+            MAIN GRID LAYOUT
+        ============================================================ */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border-t border-l border-[#1E293B]">
+          
+          {/* ── LEFT PANE: Telemetry & Contact (Col Span 3) ── */}
+          <div className="dossier-panel lg:col-span-3 border-r border-b border-[#1E293B] flex flex-col bg-[#0B0E14]">
+            
+            {/* Operator Status */}
+            <div className="panel-bg-fill border-b border-[#1E293B] px-5 py-4">
+              <div className="dossier-content text-[10px] text-[#475569] uppercase tracking-widest mb-4">
+                [ CURRENT_STATUS ]
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-white">Profile</h3>
-            </div>
-
-            <p className="text-white text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">{personalInfo.bio}</p>
-
-            {/* Contact */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              {[
-                { label: 'Email', value: personalInfo.email, color: 'jarvis-primary' },
-                { label: 'Phone', value: personalInfo.phone, color: 'jarvis-secondary' },
-                { label: 'Location', value: personalInfo.location, color: 'jarvis-accent' },
-                { label: 'Status', value: 'Available', color: 'green-400', isStatus: true }
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <div className={`w-1 h-6 sm:h-8 rounded-full bg-${item.color} flex-shrink-0`} />
-                  <div className="flex-1 min-w-0">
-                    <p className={`text-xs font-mono text-${item.color} mb-0.5 sm:mb-1`}>{item.label}</p>
-                    <p className="text-xs sm:text-sm text-white flex items-center gap-2 truncate">
-                      {item.isStatus && <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0" />}
-                      <span className="truncate">{item.value}</span>
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* CERTIFICATIONS CARD */}
-          <div className="about-card p-4 sm:p-5 lg:p-6 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/10 
-          hover:border-jarvis-secondary/30 transition-all duration-300">
-            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-jarvis-secondary/20 to-jarvis-accent/20 
-              flex items-center justify-center border border-jarvis-secondary/30 flex-shrink-0">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-jarvis-secondary" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-white">Certifications</h3>
-            </div>
-
-            <div className="space-y-2.5 sm:space-y-3">
-              {certifications.map((cert) => (
-                <div key={cert.id}
-                  className="flex justify-between items-center p-2.5 sm:p-3 rounded-lg 
-                  bg-white/[0.02] border border-white/5 hover:border-jarvis-secondary/30 
-                  transition-all group">
-                  <div className="min-w-0 flex-1 mr-2">
-                    <p className="text-xs sm:text-sm text-white group-hover:text-jarvis-secondary truncate">{cert.name}</p>
-                    <p className="text-xs text-jarvis-light/60 truncate">{cert.issuer}</p>
-                  </div>
-                  <span className="text-xs font-mono text-jarvis-secondary/80 flex-shrink-0">{cert.year}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* EDUCATION */}
-          <div className="about-card p-4 sm:p-5 lg:p-6 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/10 
-          hover:border-jarvis-primary/30 transition-all duration-300">
-            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-jarvis-primary/20 to-jarvis-secondary/20 
-              flex items-center justify-center border border-jarvis-primary/30 flex-shrink-0">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-jarvis-primary" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
-                </svg>
-              </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-white">Education</h3>
-            </div>
-
-            <div className="space-y-3 sm:space-y-4">
-              {education.map((edu) => (
-                <div key={edu.id}
-                  className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/5 hover:border-jarvis-primary/30 transition-all group">
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <h4 className="text-sm sm:text-base text-white font-semibold group-hover:text-jarvis-primary flex-1">{edu.degree}</h4>
-                    <span className="text-xs font-mono px-2 py-1 
-                    bg-jarvis-primary/10 text-jarvis-primary rounded-md border border-jarvis-primary/20 flex-shrink-0">
-                      {edu.year}
-                    </span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-jarvis-light/70 mb-3">{edu.institution}</p>
-
-                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                    <div className="text-center p-2 sm:p-2.5 rounded-lg bg-jarvis-primary/5 border border-jarvis-primary/10">
-                      <p className="text-xs text-jarvis-primary/80">SGPA</p>
-                      <p className="text-sm font-semibold text-white">{edu.cgpa}</p>
-                    </div>
-
-                    <div className="text-center p-2 sm:p-2.5 rounded-lg bg-jarvis-secondary/5 border border-jarvis-secondary/10">
-                      <p className="text-xs text-jarvis-secondary/80">Uni</p>
-                      <p className="text-sm font-semibold text-white truncate">{edu.languages}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* SPECIALIZATION */}
-          <div className="about-card p-4 sm:p-5 lg:p-6 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/10 
-          hover:border-jarvis-accent/30 transition-all duration-300">
-            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-jarvis-accent/20 to-purple-500/20 
-              flex items-center justify-center border border-jarvis-accent/30 flex-shrink-0">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-jarvis-accent" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M11.3 1.046A1 1 0 0012 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" />
-                </svg>
-              </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-white">Specializations</h3>
-            </div>
-
-            <div className="flex flex-wrap gap-1.5 sm:gap-2">
-              {interests.map((item, i) => (
-                <span key={i}
-                  className="px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs rounded-lg bg-jarvis-accent/10 
-                  border border-jarvis-accent/20 hover:border-jarvis-accent/40 
-                  hover:text-jarvis-accent text-jarvis-light/80 transition-all">
-                  {item}
+              <div className="dossier-content flex items-center gap-3 mb-2">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#10B981] opacity-40" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10B981]" />
                 </span>
-              ))}
+                <span className="text-[12px] text-[#10B981] font-bold tracking-wider">ACTIVE_OPERATOR</span>
+              </div>
+              <div className="dossier-content text-[11px] text-[#94A3B8] uppercase">
+                ROLE: {personalInfo.title}
+              </div>
+            </div>
+
+            {/* Comms Link */}
+            <div className="border-b border-[#1E293B] px-5 py-4 flex-1">
+              <div className="dossier-content text-[10px] text-[#475569] uppercase tracking-widest mb-4">
+                [ COMMS_UPLINK ]
+              </div>
+              <div className="dossier-content space-y-4">
+                {contactFields.map((field) => (
+                  <div key={field.label} className="flex flex-col gap-1">
+                    <span className="text-[10px] text-[#5EEAD4] uppercase">{field.label}</span>
+                    <span className="text-[12px] text-[#94A3B8] truncate">{field.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* System Metrics */}
+            <div className="panel-bg-fill px-5 py-4">
+              <div className="dossier-content text-[10px] text-[#475569] uppercase tracking-widest mb-3">
+                [ SYS_METRICS ]
+              </div>
+              <div className="dossier-content flex justify-between items-end border-l-2 border-[#1E293B] pl-3">
+                <div>
+                  <div className="text-[10px] text-[#475569] uppercase">UPTIME</div>
+                  <div className="text-[16px] text-[#94A3B8] font-bold">2.5+ YRS</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[10px] text-[#475569] uppercase">GATES</div>
+                  <div className="text-[16px] text-[#10B981] font-bold">100%</div>
+                </div>
+              </div>
             </div>
           </div>
 
+          {/* ── RIGHT PANE: Data Streams (Col Span 9) ── */}
+          <div className="lg:col-span-9 flex flex-col">
+            
+            {/* Top Right: Manifesto / Bio */}
+            <div className="dossier-panel border-r border-b border-[#1E293B] p-6 lg:p-8 bg-[#0B0E14]">
+              <div className="dossier-content text-[10px] text-[#5EEAD4] uppercase tracking-widest mb-4">
+                &gt; DECRYPTED_PROFILE_SUMMARY
+              </div>
+              <h3 className="dossier-content text-xl sm:text-2xl lg:text-3xl font-light text-[#94A3B8] leading-tight tracking-tight uppercase mb-6 max-w-3xl">
+                Building quality into the system <span className="text-[#F59E0B]">— not after it.</span>
+              </h3>
+              <p className="dossier-content text-[13px] text-[#475569] leading-relaxed max-w-4xl uppercase tracking-wide">
+                {personalInfo.bio}
+              </p>
+            </div>
+
+            {/* Bottom Right Split: Edu & Certs */}
+            <div className="grid grid-cols-1 md:grid-cols-2 flex-1">
+              
+              {/* Education Data Table */}
+              <div className="dossier-panel border-r border-b lg:border-b-0 border-[#1E293B] p-6 bg-[#0B0E14] panel-bg-fill">
+                <div className="dossier-content text-[10px] text-[#475569] uppercase tracking-widest mb-6 flex justify-between">
+                  <span>[ EDUCATION_RECORDS ]</span>
+                  <span>YAML</span>
+                </div>
+                <div className="dossier-content space-y-6">
+                  {education.map((edu, i) => (
+                    <div key={edu.id} className={`flex flex-col gap-1 ${i !== education.length - 1 ? 'pb-6 border-b border-[#1E293B]' : ''}`}>
+                      <div className="flex justify-between items-start">
+                        <span className="text-[13px] text-[#5EEAD4] font-bold">{edu.degree}</span>
+                        <span className="text-[10px] text-[#F59E0B] shrink-0">{edu.year}</span>
+                      </div>
+                      <span className="text-[11px] text-[#94A3B8] uppercase tracking-wider">{edu.institution}</span>
+                      <span className="text-[10px] text-[#475569]">CGPA_LOG: {edu.cgpa}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Certifications Data List */}
+              <div className="dossier-panel border-r border-b lg:border-b-0 border-[#1E293B] p-6 bg-[#0B0E14]">
+                <div className="dossier-content text-[10px] text-[#475569] uppercase tracking-widest mb-6 flex justify-between">
+                  <span>[ CREDENTIALS_VERIFIED ]</span>
+                  <span>JSON</span>
+                </div>
+                <div className="dossier-content space-y-3">
+                  {certifications.map((cert) => (
+                    <div key={cert.id} className="group border border-[#1E293B] p-3 flex flex-col gap-2 hover:border-[#5EEAD4] transition-colors duration-200">
+                      <div className="flex justify-between items-start gap-2">
+                        <span className="text-[12px] text-[#94A3B8] leading-tight uppercase group-hover:text-[#5EEAD4] transition-colors">
+                          {cert.name}
+                        </span>
+                        <span className="text-[10px] text-[#10B981] shrink-0">[OK]</span>
+                      </div>
+                      <div className="flex justify-between items-end">
+                        <span className="text-[10px] text-[#475569] uppercase tracking-widest">{cert.issuer}</span>
+                        <span className="text-[10px] text-[#F59E0B]">{cert.year}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
+
+        {/* ============================================================
+            INTERESTS (Bottom Data Bar)
+        ============================================================ */}
+        <div className="dossier-panel border-x border-b border-[#1E293B] bg-[#11151C] p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="dossier-content text-[10px] text-[#475569] uppercase tracking-widest shrink-0">
+            [ ACTIVE_RESEARCH ]
+          </div>
+          <div className="dossier-content flex flex-wrap gap-2">
+            {interests.map((item, index) => (
+              <span
+                key={index}
+                className="text-[10px] text-[#94A3B8] uppercase tracking-wider px-2 py-1 border border-[#1E293B] hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors cursor-default"
+              >
+                <span className="text-[#475569] mr-1">#</span>{item}
+              </span>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
