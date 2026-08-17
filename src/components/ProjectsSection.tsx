@@ -422,29 +422,6 @@ const ProjectsSection: React.FC = () => {
       <div className="max-w-[1200px] w-full mx-auto relative flex flex-col">
 
         {/* ────────────────────────────────────────────────
-            HEADER CHROME WITH HOME NAVIGATION BUTTON
-        ──────────────────────────────────────────────── */}
-        <div className="proj-panel border border-[#1E293B] bg-[#11151C] flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 py-3 mb-6 proj-fill">
-          <div className="proj-content flex items-center gap-3">
-            <span className="w-2 h-2 bg-[#F59E0B] animate-pulse" />
-            <h2 className="text-[12px] text-[#F59E0B] tracking-widest uppercase">
-              {headerDecrypted || "AWAITING_DECRYPTION..."}
-            </h2>
-          </div>
-          <div className="proj-content flex items-center gap-4 mt-2 sm:mt-0">
-            <span className="text-[10px] text-[#475569] tracking-widest uppercase hidden md:inline">
-              ARCHIVE_SIZE: {projects.length} // SECURE_ACCESS
-            </span>
-            <button
-              onClick={() => navigate('/')}
-              className="border border-[#1E293B] bg-[#05070A] px-3 py-1 text-[10px] text-[#5EEAD4] hover:border-[#5EEAD4] hover:bg-[#11151C] transition-colors uppercase tracking-widest flex items-center gap-2"
-            >
-              <span>{'<'} RETURN_HOME</span>
-            </button>
-          </div>
-        </div>
-
-        {/* ────────────────────────────────────────────────
             CATEGORY FILTER BAR
         ──────────────────────────────────────────────── */}
         <div className="proj-panel border border-[#1E293B] bg-[#0B0E14] mb-6 flex overflow-x-auto hide-scrollbar">

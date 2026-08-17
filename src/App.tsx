@@ -80,7 +80,6 @@ function App() {
               {/* Main Content Hub */}
               <main className="relative z-10">
                 <Hero />
-                <About />
               </main>
 
               {/* Scroll to Top Button */}
