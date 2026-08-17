@@ -547,10 +547,9 @@ const ProjectsSection: React.FC = () => {
             BOTTOM ROW: SUMMARY & CTA
         ──────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          
-          {/* Summary Counts (Col span 8) */}
+{/* Summary Counts (Col span 8) */}
           <div className="proj-panel lg:col-span-8 border border-[#1E293B] bg-[#1E293B] gap-[1px] grid grid-cols-1 sm:grid-cols-3">
-            {summary.linkLabels ?? summary.map((item) => (
+            {summary.map((item) => (
               <div key={item.label} className="proj-content bg-[#0B0E14] p-5 flex flex-col justify-between hover:bg-[#11151C] transition-colors">
                 <div className="text-[10px] text-[#475569] uppercase tracking-widest mb-4">
                   [ {item.label} ]
