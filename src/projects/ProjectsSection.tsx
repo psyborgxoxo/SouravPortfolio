@@ -29,18 +29,18 @@
 // const useDecryptionEffect = (text: string, trigger: boolean, speed = 25) => {
 //   const [displayText, setDisplayText] = useState('');
 //   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*<>';
-  
+
 //   useEffect(() => {
 //     if (!trigger) return;
 //     let iteration = 0;
 //     let interval: NodeJS.Timeout;
-    
+
 //     interval = setInterval(() => {
 //       setDisplayText(text.split('').map((char, index) => {
 //         if (index < iteration || char === ' ') return text[index];
 //         return chars[Math.floor(Math.random() * chars.length)];
 //       }).join(''));
-      
+
 //       if (iteration >= text.length) clearInterval(interval);
 //       iteration += 1 / 2;
 //     }, speed);
@@ -56,7 +56,7 @@
 //    ────────────────────────────────────────────────────────────── */
 // const ProjectsSection: React.FC = () => {
 //   const projectsRef = useRef<HTMLDivElement>(null);
-  
+
 //   const [activeCategory, setActiveCategory] = useState('all');
 //   const [isVisible, setIsVisible] = useState(false);
 
@@ -163,7 +163,7 @@
 //         <div className="proj-panel border border-[#1E293B] bg-[#1E293B] gap-[1px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-6">
 //           {filteredProjects.map((project) => {
 //             const status = statusStyles[project.status] ?? statusStyles.completed;
-            
+
 //             return (
 //               <div
 //                 key={`${project.id}-${activeCategory}`}
@@ -226,7 +226,7 @@
 //               </div>
 //             );
 //           })}
-          
+
 //           {/* Fill empty grid spots with dot pattern to maintain strict UI rectangle */}
 //           {Array.from({ length: emptyCells }).map((_, i) => (
 //             <div key={`empty-${i}`} className="bg-[#0B0E14] hidden lg:block pattern-dots" />
@@ -237,7 +237,7 @@
 //             BOTTOM ROW: SUMMARY & CTA
 //         ──────────────────────────────────────────────── */}
 //         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          
+
 //           {/* Summary Counts (Col span 8) */}
 //           <div className="proj-panel lg:col-span-8 border border-[#1E293B] bg-[#1E293B] gap-[1px] grid grid-cols-1 sm:grid-cols-3">
 //             {summary.map((item) => (
@@ -262,7 +262,7 @@
 //                 Open to challenging roles and collaborative automation builds. System ready for input.
 //               </p>
 //             </div>
-            
+
 //             <button
 //               onClick={() => scrollToSection('contact')}
 //               className="proj-content group border border-[#5EEAD4] bg-[#5EEAD4]/10 hover:bg-[#5EEAD4] transition-colors duration-200 px-4 py-2 w-full flex items-center justify-between"
@@ -283,7 +283,7 @@
 //         /* Hide scrollbar for filter strip but keep functionality */
 //         .hide-scrollbar::-webkit-scrollbar { display: none; }
 //         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
+
 //         /* Subtle dot pattern for empty grid cells */
 //         .pattern-dots {
 //           background-image: radial-gradient(#1E293B 1px, transparent 1px);
@@ -312,9 +312,9 @@ gsap.registerPlugin(ScrollTrigger);
    Types & Palette Mapping
    ────────────────────────────────────────────────────────────── */
 const statusStyles: Record<string, { text: string; dot: string; label: string }> = {
-  completed:     { text: 'text-[#10B981]', dot: 'bg-[#10B981]', label: 'COMPLETED' },
+  completed: { text: 'text-[#10B981]', dot: 'bg-[#10B981]', label: 'COMPLETED' },
   'in-progress': { text: 'text-[#F59E0B]', dot: 'bg-[#F59E0B]', label: 'IN_PROGRESS' },
-  planned:       { text: 'text-[#5EEAD4]', dot: 'bg-[#5EEAD4]', label: 'PLANNED' },
+  planned: { text: 'text-[#5EEAD4]', dot: 'bg-[#5EEAD4]', label: 'PLANNED' },
 };
 
 // Auto-generate counts based on actual data
@@ -330,18 +330,18 @@ const categories = [
 const useDecryptionEffect = (text: string, trigger: boolean, speed = 25) => {
   const [displayText, setDisplayText] = useState('');
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*<>';
-  
+
   useEffect(() => {
     if (!trigger) return;
     let iteration = 0;
     let interval: NodeJS.Timeout;
-    
+
     interval = setInterval(() => {
       setDisplayText(text.split('').map((char, index) => {
         if (index < iteration || char === ' ') return text[index];
         return chars[Math.floor(Math.random() * chars.length)];
       }).join(''));
-      
+
       if (iteration >= text.length) clearInterval(interval);
       iteration += 1 / 2;
     }, speed);
@@ -358,15 +358,15 @@ const useDecryptionEffect = (text: string, trigger: boolean, speed = 25) => {
 const ProjectsSection: React.FC = () => {
   const projectsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  
+
   const [activeCategory, setActiveCategory] = useState('all');
   const [isVisible, setIsVisible] = useState(false);
 
   // Decryption effect triggers when section scrolls into view
   const headerDecrypted = useDecryptionEffect("REPOSITORY_INDEX_ACCESS", isVisible, 30);
 
-  const filteredProjects = activeCategory === 'all' 
-    ? projects 
+  const filteredProjects = activeCategory === 'all'
+    ? projects
     : projects.filter((p) => p.category === activeCategory);
 
   const scrollToSection = (id: string) => {
@@ -413,9 +413,9 @@ const ProjectsSection: React.FC = () => {
   const emptyCells = filteredProjects.length % 3 !== 0 ? 3 - (filteredProjects.length % 3) : 0;
 
   return (
-    <section 
-      id="projects" 
-      ref={projectsRef} 
+    <section
+      id="projects"
+      ref={projectsRef}
       className="relative z-10 min-h-screen bg-[#05070A] py-24 px-4 sm:px-8 flex flex-col font-mono selection:bg-[#F59E0B] selection:text-[#0B0E14]"
       data-section="projects"
     >
@@ -473,7 +473,7 @@ const ProjectsSection: React.FC = () => {
         <div className="proj-panel border border-[#1E293B] bg-[#1E293B] gap-[1px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-6">
           {filteredProjects.map((project) => {
             const status = statusStyles[project.status] ?? statusStyles.completed;
-            
+
             return (
               <div
                 key={`${project.id}-${activeCategory}`}
@@ -536,7 +536,7 @@ const ProjectsSection: React.FC = () => {
               </div>
             );
           })}
-          
+
           {/* Fill empty grid spots with dot pattern to maintain strict UI rectangle */}
           {Array.from({ length: emptyCells }).map((_, i) => (
             <div key={`empty-${i}`} className="bg-[#0B0E14] hidden lg:block pattern-dots" />
@@ -547,7 +547,7 @@ const ProjectsSection: React.FC = () => {
             BOTTOM ROW: SUMMARY & CTA
         ──────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-{/* Summary Counts (Col span 8) */}
+          {/* Summary Counts (Col span 8) */}
           <div className="proj-panel lg:col-span-8 border border-[#1E293B] bg-[#1E293B] gap-[1px] grid grid-cols-1 sm:grid-cols-3">
             {summary.map((item) => (
               <div key={item.label} className="proj-content bg-[#0B0E14] p-5 flex flex-col justify-between hover:bg-[#11151C] transition-colors">
@@ -571,7 +571,7 @@ const ProjectsSection: React.FC = () => {
                 Open to challenging roles and collaborative automation builds. System ready for input.
               </p>
             </div>
-            
+
             <button
               onClick={() => scrollToSection('contact')}
               className="proj-content group border border-[#5EEAD4] bg-[#5EEAD4]/10 hover:bg-[#5EEAD4] transition-colors duration-200 px-4 py-2 w-full flex items-center justify-between"
